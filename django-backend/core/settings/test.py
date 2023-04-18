@@ -1,0 +1,6 @@
+from core.settings.base import *
+
+ELASTICSEARCH_DSL_AUTOSYNC = False
+CELERY_TASK_ALWAYS_EAGER = True
+LOG_LEVEL = 'CRITICAL'
+DEBUG = False

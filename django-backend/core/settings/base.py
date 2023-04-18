@@ -10,10 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -22,11 +25,59 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-qsmp310+^*sg23zyn#*!zwsqvgp4u1tg2lgt52uvil4_i12)j#'
 
+SHELL_PLUS = 'iphyton'
+IPHYTON_ARGUMENS = ['--colors=Linux', '--ext=autoreload']
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# ELASTIC 
+ELASTIC_HOST = 'localhost:9200'
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': [ELASTIC_HOST],
+        }
+    }
+# ELASTICSEARCH_DSL_AUTOSYNC = True
+ELASTICSEARCH_DSL_AUTOSYNC = False
+
+ELASTIC_AUTHOR_INDEX = 'authors'
+ELASTIC_BOOK_INDEX = 'books'
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ['http://localhost:4200']
+
+
+
+# CELERY 
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_TASK_ALWAYS_EAGER = True
+
+CELERY_BEAT_SCHEDULE ={
+    'sync-authors-every-24h': {
+        'task': 'task.author.sync.elastic.cb',
+        'schedule': crontab(minute=0, hour=0)
+    },
+    'sync-books-every-24h': {
+        'task': 'task.author.sync.elastic.cb',
+        'schedule': crontab(minute=0, hour=0)
+    }
+}
+
+
+# JWT 
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ALGORITHM': 'HS256',
+}
 
 # Application definition
 
@@ -37,12 +88,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_restframework',
+    'rest_framework',
+    'author.apps.AuthorConfig', 
+    'book.apps.BookConfig',
+    'rest_framework_simplejwt',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
+    'django_filters',
+    'corsheaders',
+    'celery'
+    
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

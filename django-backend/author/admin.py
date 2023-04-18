@@ -1,3 +1,8 @@
+from author.models import Author
+from core.utils import mixins
 from django.contrib import admin
 
-# Register your models here.
+
+@admin.register(Author)
+class AuthorAdmin(mixins.AdminUserMixin):
+    pass
