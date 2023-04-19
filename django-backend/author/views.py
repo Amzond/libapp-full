@@ -4,6 +4,7 @@ from core.utils import elastic, exceptions
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -28,7 +29,7 @@ class AuthorFilterSet(filters.FilterSet):
                 'icontains'
                 ]
         }
-        
+
     def full_text_search_elastic(self, queryset, _,value):
 
         es = elastic.init_elastic()  
@@ -53,11 +54,12 @@ class AuthorFilterSet(filters.FilterSet):
 #                 data={'detail: negalima ištrinti autoriaus, nes jis turi knygų'}
 #                 )
             
-class AuthorViewSet(viewsets.ViewSet):
+class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
     queryset = Author.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly]
     filterset_class = AuthorFilterSet
+
 
     def list(self, request):
         queryset = Author.objects.all()

@@ -1,0 +1,101 @@
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); 
+        grid-gap: 10px; 
+    }
+    
+    .grid-item {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 2%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .grid-item:hover{
+        background-color:#d6d6d4 ; 
+        cursor: pointer;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius:  5px 5px ;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        font-size: 16px;
+        flex: 1;
+    }
+    .form-group {
+        margin: 15px;
+    }
+    .red_text {
+        color: red;
+    }
+</style>
+<div *ngIf="isAuthenticated" style="margin: 30px">
+    <form (ngSubmit)="showForm()">
+        <button type="submit">Pridėti autorių</button>
+      </form>
+</div>
+
+<div style="max-width: 90%; margin: 0 auto;" *ngIf="isFormVisible">
+    <h2>Autoriaus duomenys</h2>
+    <h2 class="red_text" *ngIf="errorMessage">{{ errorMessage }}</h2>
+    <form  [formGroup]="authorForm" (ngSubmit)="onCreateAuthor()">
+        <div class="form-group">
+          <label for="full_name">Vardas pavardė</label><br>
+          <input type="text" id="full_name" formControlName="full_name">
+          <div style="color:red" *ngIf="authorForm.controls['full_name'].touched && authorForm.controls['full_name'].errors?.['required']" class="error">Privaloma</div>
+        </div>
+        <div class="form-group">
+          <label for="email">El. paštas</label><br>
+          <input type="email" id="email" formControlName="email">
+          <div *ngIf="authorForm.controls['email'].touched && (authorForm.controls['email'].errors?.['email'] || authorForm.controls['email'].errors?.['maxlength'])" class="error">Neteisingas el.pašto formatas</div>
+        </div>
+        <div class="form-group">
+          <label for="phone">Telefonas</label><br>
+          <input type="text" id="phone" formControlName="phone">
+          <div *ngIf="authorForm.controls['phone'].touched && authorForm.controls['phone'].errors?.['maxlength']" class="error">Telefono numeris per ilgas arba neleistini simboliai</div>
+          <div *ngIf="authorForm.controls['phone'].touched && authorForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių</div>
+        </div>
+        <button type="submit">Pridėti autorių</button>
+      </form>
+      <div style="margin-bottom: 30px;">
+
+      </div>
+</div>
+
+
+
+
+<div style="max-width: 90%; margin: 0 auto;">
+    <div style="display: flex">
+        <div style="margin-block-end: 30px">
+            <input [(ngModel)]="searchTerm">
+            <button (click)="onSearch()">Ieškoti</button>
+        </div>
+        <div style="margin-left: 15px;">
+            <button (click)="toggleSortOrder()">{{ orderMsg }}</button>
+        </div>
+    </div>
+    <div class="grid-container">
+        <div class="grid-item" *ngFor="let author of authors " (click)="onAuthor(author.id)">
+            
+            <h3>{{ author.full_name }}</h3>
+
+        </div>
+    </div>
+</div>
+
+
+
+

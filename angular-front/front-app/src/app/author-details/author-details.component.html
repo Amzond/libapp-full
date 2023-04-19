@@ -1,0 +1,90 @@
+<style>
+    .bordered_div {
+        margin-top: 30px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+    }
+    .centered_div {
+        margin-top: 30px;
+        text-align: center;
+        padding: 20px;
+        display: flex;
+        
+        justify-content: space-between;
+    }
+    h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    p {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius:  5px 5px ;
+        cursor: pointer;
+        font-size: 16px;
+        align-items: center;
+    }
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        font-size: 16px;
+        flex: 1;
+    }
+    .form-group {
+        margin: 15px;
+    }
+    .red_text {
+        color: red;
+    }
+
+</style>
+
+<div class="centered_div" *ngIf="isAuthenticated">
+    <div >
+        <button (click)="onDelete(AuthorId)">Ištrinti</button>
+        <h2 class="red_text" *ngIf="message">{{ message }}</h2>
+    </div>
+    <div>
+        <button (click)="onEdit()">Redaguoti</button>
+    </div>
+    
+</div>
+
+<div  *ngIf="EditFormVisible">
+
+  <form  [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
+    <div class="form-group">
+      <label for="full_name">Vardas pavardė</label>
+      <input type="text" id="full_name" formControlName="full_name">
+      <div style="color:red" *ngIf="EditForm.controls['full_name'].touched && EditForm.controls['full_name'].errors?.['required']" class="error">Privaloma</div>
+    </div>
+    <div class="form-group">
+      <label for="email">El. paštas</label>
+      <input type="email" id="email" formControlName="email">
+      <div *ngIf="EditForm.controls['email'].touched && (EditForm.controls['email'].errors?.['email'] || EditForm.controls['email'].errors?.['maxlength'])" class="error">Neteisingas el.pašto formatas</div>
+    </div>
+    <div class="form-group">
+      <label for="phone">Telefonas</label>
+      <input type="text" id="phone" formControlName="phone">
+      <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('maxlength')" class="error">Telefono numeris per ilgas arba neleistini simboliai</div>
+      <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių</div>
+    </div>
+    <button type="submit">Išsaugoti</button>
+  </form>
+</div>
+
+
+<div class="bordered_div" *ngIf="authorDetails" >
+    <h3 style="text-align: center;">{{ authorDetails.full_name }}</h3>
+    <p style="text-align: center;">El. paštas: {{ authorDetails.email }}</p>
+    <p style="text-align: center;">Telefonas: {{ authorDetails.phone }}</p>
+</div>

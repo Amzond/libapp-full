@@ -1,0 +1,75 @@
+<style>
+
+    input[type="text"], input[type="password"] {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+    cursor: pointer;
+    }
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    .container {
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        height: 35vh; 
+    }
+
+    .red_text {
+        color: red;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #3e8e41;
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    button:active {
+        background-color: #e7e7e7;
+        color: black;
+    }
+</style>
+
+<div class="container">
+    <div class="content" *ngIf="!isLoggedIn">
+        <form (ngSubmit)="onLogin()">
+        <div>
+          <label for="username">Prisijungimo vardas</label><br>
+          <input type="text" id="username" [(ngModel)]="username" name="username" placeholder="">
+        </div>
+        <div>
+          <label for="password">Slaptažodis</label><br>
+          <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="">
+        </div>
+        <button type="submit">Prisijungti</button>
+      </form>
+      <div class="error"style="color: red"  *ngIf="errorMessage">{{ errorMessage }}</div>
+    </div>
+    <div  *ngIf="isLoggedIn">
+        <h1>Jus esat prisijungęs</h1>
+        <button (click)="onLogout()">Atsijungti</button>
+    </div>
+</div>
+
