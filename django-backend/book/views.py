@@ -64,7 +64,7 @@ class BookFilterSet(filters.FilterSet):
 #         task_author_delete.delay(author_ids)
 
 
-class BookViewSet(viewsets.ViewSet):
+class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -79,7 +79,7 @@ class BookViewSet(viewsets.ViewSet):
                 'request': request
                 }
             )
-        return Response(serializer.data)
+        return super().list(self,request)
     
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(

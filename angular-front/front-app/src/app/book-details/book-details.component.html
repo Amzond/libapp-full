@@ -1,1 +1,126 @@
-<p>book-details works!</p>
+<style>
+
+    select#authors {
+        display: flex;
+        width: 80%;
+        height: 8rem;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    select#authors:focus {
+        outline: none;
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    .bordered_div {
+        margin-top: 30px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+    }
+    .centered_div {
+        margin-top: 30px;
+        text-align: center;
+        padding: 20px;
+        display: flex;
+        
+        justify-content: space-between;
+    }
+    h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    p {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius:  5px 5px ;
+        cursor: pointer;
+        font-size: 16px;
+        align-items: center;
+    }
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        font-size: 16px;
+        flex: 1;
+    }
+    .form-group {
+        margin: 15px;
+    }
+    .red_text {
+        color: red;
+    }
+</style>
+
+<div class="centered_div" *ngIf="isAuthenticated">
+    <div >
+        <button (click)="onDelete(bookId)">Ištrinti</button>
+        
+    </div>
+    <div>
+        <button (click)="onEdit()">Redaguoti</button>
+    </div>
+</div>
+
+<div style="max-width: 90%; margin: 0 auto;" *ngIf="isEditVisible && books" >
+    <form [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
+        <h2 class="red_text" *ngIf="errorMessage">{{errorMessage}}</h2>
+        <label for="title">Pavadinimas:</label>
+        <input type="text" id="title" formControlName="title" required>
+
+        <label for="num_of_pages">Puslapių skaičius:</label>
+        <input type="number" id="num_of_pages" formControlName="num_of_pages" min="0">
+      
+        <label for="release_year">Išleidimo metai:</label>
+        <input type="number" id="release_year" formControlName="release_year">
+        <br>
+        <label for="authors">Autoriai:</label>
+        <!-- <select id="authors" formControlName="authors"  multiple>
+          <option *ngFor="let author of existingAuthors" [ngValue]="author.id">{{ author.full_name }}</option>
+        </select> -->
+        <select id="authors" formControlName="authors" multiple>
+            <option *ngFor="let author of existingAuthors" [ngValue]="author.id">
+              {{ author.full_name }}
+            </option>
+          </select>
+      
+        <label for="genre">Žanras:</label>
+        <input type="text" id="genre" formControlName="genre">
+      
+        <label for="status">Statusas:</label>
+        <select id="status" formControlName="status">
+          <option *ngFor="let status of bookStatusCodes" [value]="status.value">{{ status.label }}</option>
+        </select>
+        
+        <button style="margin-left: 30px" type="submit">Išsaugoti</button>
+      </form>
+</div>
+
+
+
+<div class="bordered_div" *ngIf="books" >
+    <h3 style="text-align: center;">{{ books.title }}</h3>
+    <p >Puslapiu skaičius: {{ books.num_of_pages }}</p>
+    <p> Žanras: {{books.genre}}</p>
+    <p>Išleidimo data: {{ books.release_year }}</p>
+    <p>Autorius: </p>
+    <div *ngFor="let authorId of books.authors">
+        <p>{{ getAuthorFullName(authorId) }}</p> 
+      </div>
+</div>

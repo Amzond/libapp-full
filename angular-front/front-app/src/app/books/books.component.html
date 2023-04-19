@@ -1,1 +1,138 @@
-<p>books works!</p>
+
+<style>
+select#authors {
+        display: flex;
+        width: 80%;
+        height: 8rem;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    select#authors:focus {
+        outline: none;
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); 
+        grid-gap: 10px; 
+    }
+    
+    .grid-item {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 2%;
+    }
+    
+    
+    .grid-item:hover{
+        background-color:#d6d6d4 ; 
+        cursor: pointer;
+    }
+    .red_text {
+        color: red;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius:  5px 5px ;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #3e8e41;
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    button:active {
+        background-color: #e7e7e7;
+        color: black;
+    }
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        font-size: 16px;
+        flex: 1;
+    }
+    .form-group {
+        margin: 15px;
+    }
+    </style>
+
+<div *ngIf="isAuthenticated" style="margin: 30px">
+    <form (ngSubmit)="onCreate()">
+        <button type="submit">Pridėti knygą</button>
+      </form>
+</div>
+
+<div  style="max-width: 90%; margin: 0 auto;" *ngIf="showBookForm">
+    <form [formGroup]="newBookForm" (ngSubmit)="onSubmitCreateBook()">
+        <h2 class="red_text" *ngIf="errorMessage">{{errorMessage}}</h2>
+        <label for="title">Pavadinimas:</label>
+        <input type="text" id="title" formControlName="title" required>
+
+        <label for="num_of_pages">Puslapių skaičius:</label>
+        <input type="number" id="num_of_pages" formControlName="num_of_pages" min="0">
+      
+        <label for="release_year">Išleidimo metai:</label>
+        <input type="number" id="release_year" formControlName="release_year">
+        <br>
+        <label for="authors">Autoriai:</label>
+        <select id="authors" formControlName="authors"  multiple>
+          <option *ngFor="let author of existingAuthors" [ngValue]="author.id">{{ author.full_name }}</option>
+        </select>
+      
+        <label for="genre">Žanras:</label>
+        <input type="text" id="genre" formControlName="genre">
+      
+        <label for="status">Statusas:</label>
+        <select id="status" formControlName="status">
+          <option *ngFor="let status of bookStatusCodes" [value]="status.value">{{ status.label }}</option>
+        </select>
+        
+        <button style="margin-left: 30px" type="submit">Pridėti</button>
+      </form>
+</div>
+
+<div style="margin-top: 30px;">
+    
+</div>
+
+<div style="max-width: 90%; margin: 0 auto;">
+    <div style="display: flex">
+        <div style="margin-block-end: 30px">
+            <input [(ngModel)]="searchTerm">
+            <button (click)="onSearch()">Ieškoti</button>
+        </div>
+        <div style="margin-left: 15px;">
+            <button (click)="toggleSortOrder()">{{ orderMsg }}</button>
+        </div>
+    </div>
+    <div class="grid-container">
+        <div class="grid-item" *ngFor="let book of books" (click)="onBook(book.id)">
+
+            <h3 style="text-align: center;">{{ book.title }}</h3>
+            <p>Puslapiu skaičius: {{ book.num_of_pages }}</p>
+            <p>Žanras: {{book.genre}}</p>
+            <p>Išleidimo data: {{ book.release_year }}</p>
+            <p>Statusas: {{ getStatusLabel(book.status) }}</p>
+    
+        </div>
+    </div>
+</div>
+

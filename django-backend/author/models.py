@@ -20,6 +20,7 @@ class Author(
         blank=True, 
         null=True
     )
+    # born = models.
     def __str__(self):
         return f'{self.full_name}'
 

@@ -54,12 +54,13 @@ class AuthorFilterSet(filters.FilterSet):
 #                 data={'detail: negalima ištrinti autoriaus, nes jis turi knygų'}
 #                 )
             
+    
 class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
     queryset = Author.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly]
     filterset_class = AuthorFilterSet
-
+    
 
     def list(self, request):
         queryset = Author.objects.all()
@@ -70,7 +71,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
                 'request': request
                 }
             )
-        return Response(serializer.data)
+        
+        return super().list(self,request)
 
     def create(self, request):
         serializer = AuthorSerializer(

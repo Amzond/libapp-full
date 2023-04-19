@@ -39,21 +39,24 @@ export class AuthorsComponent {
 
   ngOnInit() {
     this.getAuthors()
-    
     this.isAuthenticated = this.loginService.isLoggedIn()
   }
   private getAuthors(): void{
     this.aurhorService.getAuthors().subscribe(
       (author)=>{
         this.authors=author
-        this.authors = sortBy(this.authors, ['full_name'])
-      })
+        this.authors = this.authors.sort((
+          a: { full_name: any; },
+          b: { full_name: any; }) => a.full_name.localeCompare(b.full_name))
+      }
+    )
   }
   onSearch(){
     this.aurhorService.searchAuthors(this.searchTerm).subscribe(
       (author)=>{
         this.authors=author
-      })
+      }
+      )
   }
   showForm(){
     this.isFormVisible = true;
@@ -83,11 +86,16 @@ export class AuthorsComponent {
   }
   toggleSortOrder() {
     if (this.sortOrder === 'asc') {
-      this.authors = sortBy(this.authors, ['full_name']);
+      this.authors = this.authors.sort((
+        a: { full_name: any; },
+        b: { full_name: any; }) => a.full_name.localeCompare(b.full_name))
       this.sortOrder = 'desc';
       this.orderMsg = 'A...Z';
     } else {
-      this.authors = sortBy(this.authors, ['full_name']).reverse();
+      this.authors = this.authors.sort((
+        a: { full_name: any; },
+        b: { full_name: any; }) => b.full_name.localeCompare(a.full_name))
+
       this.sortOrder = 'asc';
       this.orderMsg = 'Z...A';
     }

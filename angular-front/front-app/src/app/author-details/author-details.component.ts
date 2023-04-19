@@ -60,11 +60,15 @@ export class AuthorDetailsComponent {
   onEdit(){
     this.EditFormVisible = true
     this.EditForm = this.formBuilder.group({
-      full_name: ['', Validators.required],
-      email: ['', [
+      full_name: [
+        this.authorDetails.full_name, 
+        Validators.required],
+      email: [
+        this.authorDetails.email,[
         Validators.email, 
         Validators.maxLength(50)]],
-      phone: ['', 
+      phone: [
+        this.authorDetails.phone, 
         Validators.compose([Validators.pattern('^[0-9]+$'), 
         Validators.maxLength(16)])]
     });

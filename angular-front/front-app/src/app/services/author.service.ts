@@ -20,7 +20,7 @@ export class AuthorService {
     return this.http.get<any>(this.url);
   }
   searchAuthors(search?: string): Observable<any>{
-    return this.http.get<any>(this.search_url + search)
+    return this.http.get<any>(this.search_url + search);
   }
   createAuthor(authorData: any): Observable<any>{
     const httpOptions = {
