@@ -14,8 +14,8 @@ def scrap_books_from_vaga():
         
     book_titles = main_soup.find_all('p', class_='name')
     for i, title in enumerate(book_titles):
-        
-        if elastic.es_search_book_by_title(title.text.strip()):
+        striped_title = title.text.strip()
+        if elastic.es_search_book_by_title(striped_title):
             continue
         
         book_url = title.find('a').get('href')
@@ -57,3 +57,25 @@ def scrap_books_from_vaga():
             release_year=obj_book_release_year
         )
         obj.authors.set(authors_list)
+        
+
+def scrap_books_from_knygos():
+    
+    knygos_url = 'https://www.knygos.lt/lt/knygos/naujos/'
+    response = requests.get(knygos_url)
+
+    main_soup = BeautifulSoup(response.content, 'html.parser')
+    
+    book_links = main_soup.find_all('a', class_='product-link')
+    for i, title in enumerate(book_links):
+        
+        book_url = title.get('href')
+        book_url = book_url.strip()
+        response = requests.get(book_url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        import ipdb
+        ipdb.set_trace()
+        book_title = soup.find('h1')
+        stripet_book_title = book_title.strip()
+        if elastic.es_search_book_by_title(stripet_book_title):
+            continue

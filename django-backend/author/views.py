@@ -71,7 +71,6 @@ class AuthorViewSet(viewsets.ModelViewSet):
                 'request': request
                 }
             )
-        
         return super().list(self,request)
 
     def create(self, request):
