@@ -36,4 +36,8 @@ export class BookDetailsService {
     };
     return this.http.patch<any>(this.url+id, data, httpOptions);
   }
+  private change_status_url = 'http://127.0.0.1:8000/api/change-status/'
+  bookBook(id?: any): Observable<any>{
+    return this.http.post(this.change_status_url, id)
+  }
 }

@@ -22,6 +22,7 @@ export class BookDetailsComponent {
   existingAuthors?: any;
   EditForm: FormGroup;
   errorMessage?: any;
+  bookingVisibility = false;
   bookStatusCodes = [
     { value: '0', label: 'Nėra' },
     { value: '1', label: 'Užsakyta' },
@@ -50,8 +51,9 @@ export class BookDetailsComponent {
       book=> {
         this.books=book
         this.fetchAuthors()
-      })
-      
+      }
+    )
+  
     this.isAuthenticated = this.loginService.isLoggedIn()
   }
   fetchAuthors(): void {
@@ -111,5 +113,17 @@ export class BookDetailsComponent {
   getStatusLabel(value: string): string {
     const statusCode = this.bookStatusCodes.find(status => status.value === value);
     return statusCode ? statusCode.label : 'Nežinomas statusas';
+  }
+  onBooking(){
+    const data = {'id': this.bookId}
+    this.bookDetailsService.bookBook(data).subscribe(
+      response => {
+        console.log(response)
+        location.reload();
+      },
+      error =>{
+
+      }
+    )
   }
 }

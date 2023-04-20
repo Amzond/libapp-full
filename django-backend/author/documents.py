@@ -20,6 +20,9 @@ class AuthorDocument(Document):
             'full_name',
             'email',
             'phone',
-            
+            'born',
+            'country',
+            'rewards',
+            'number_of_books'
         ]
         

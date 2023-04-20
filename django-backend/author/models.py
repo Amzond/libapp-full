@@ -20,7 +20,26 @@ class Author(
         blank=True, 
         null=True
     )
-    # born = models.
+    born = models.PositiveIntegerField(
+        null=True, 
+        blank=True
+        )
+    country = models.CharField(
+        blank = True,
+        null = True,
+        max_length=50
+    )
+    rewards = models.CharField(
+        blank = True,
+        null = True,
+        max_length=50
+    )
+    number_of_books = models.PositiveIntegerField(
+        blank = True,
+        null = True,
+    )
+    
+    
     def __str__(self):
         return f'{self.full_name}'
 

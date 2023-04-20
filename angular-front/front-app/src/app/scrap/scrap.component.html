@@ -1,0 +1,58 @@
+<style>
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius:  5px 5px ;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #3e8e41;
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    button:active {
+        background-color: #e7e7e7;
+        color: black;
+    }
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        font-size: 16px;
+        flex: 1;
+    }
+    .container {
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        height: 50vh; 
+        
+    }
+    .container-items{
+        margin: 20px
+    }
+    .main_container{
+        display: flex; 
+        justify-content: space-between;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+</style>
+
+<div *ngIf="isAuthenticated" class="main_container" >
+    <div>        
+        <h3>vaga.lt knygynas</h3>
+        <button (click)="onVagaClick()">tikrinti</button>
+    </div>
+    <div>
+        <h3>knygos.lt knygynas</h3>
+        <button (click)="onKnygosClick()">tikrinti</button>
+    </div>
+</div>
+

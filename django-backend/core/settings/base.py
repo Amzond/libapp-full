@@ -65,7 +65,15 @@ CELERY_BEAT_SCHEDULE ={
     },
     'sync-books-every-24h': {
         'task': 'task.author.sync.elastic.cb',
-        'schedule': crontab(minute=0, hour=0)
+        'schedule': crontab(minute=0, hour=1)
+    },
+    'scrap-books-vaga-every-24h':{
+        'task': 'task.scrap.books.vaga.cb',
+        'schedule': crontab(minute=30, hour=2)
+    },
+    'scrap-books-knygos-every-24h':{
+        'task': 'task.scrap.books.knygos.cb',
+        'schedule': crontab(minute=30, hour=4)
     }
 }
 
@@ -96,7 +104,8 @@ INSTALLED_APPS = [
     'django_elasticsearch_dsl_drf',
     'django_filters',
     'corsheaders',
-    'celery'
+    'celery',
+    'helper.apps.HelperConfig'
     
 ]
 

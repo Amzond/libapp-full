@@ -45,6 +45,32 @@
     .red_text {
         color: red;
     }
+    .form-group {
+        display: inline-block;
+        width: 30%;
+        margin-right: 2%;
+        margin-bottom: 20px;
+        }
+
+    .form-group:last-child {
+        margin-right: 0;
+        }
+
+    @media only screen and (max-width: 768px) {
+        .form-group {
+            width: 45%;
+        }
+        }
+
+    @media only screen and (max-width: 576px) {
+        .form-group {
+            width: 100%;
+            margin-right: 0;
+        }
+    }
+    .error {
+        color:red;
+    }
 
 </style>
 
@@ -58,33 +84,53 @@
     </div>
     
 </div>
-
-<div  *ngIf="EditFormVisible">
-
-  <form  [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
-    <div class="form-group">
-      <label for="full_name">Vardas pavardė</label>
-      <input type="text" id="full_name" formControlName="full_name">
-      <div style="color:red" *ngIf="EditForm.controls['full_name'].touched && EditForm.controls['full_name'].errors?.['required']" class="error">Privaloma</div>
-    </div>
-    <div class="form-group">
-      <label for="email">El. paštas</label>
-      <input type="email" id="email" formControlName="email">
-      <div *ngIf="EditForm.controls['email'].touched && (EditForm.controls['email'].errors?.['email'] || EditForm.controls['email'].errors?.['maxlength'])" class="error">Neteisingas el.pašto formatas</div>
-    </div>
-    <div class="form-group">
-      <label for="phone">Telefonas</label>
-      <input type="text" id="phone" formControlName="phone">
-      <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('maxlength')" class="error">Telefono numeris per ilgas arba neleistini simboliai</div>
-      <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių</div>
-    </div>
-    <button type="submit">Išsaugoti</button>
-  </form>
-</div>
+<div *ngIf="EditFormVisible">
+    <form [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
+      <div class="form-group">
+        <label for="full_name">Vardas pavardė</label>
+        <input type="text" id="full_name" formControlName="full_name">
+        <div style="color:red" *ngIf="EditForm.controls['full_name'].touched && EditForm.controls['full_name'].errors?.['required']" class="error">Privaloma</div>
+      </div>
+      <div class="form-group">
+        <label for="email">El. paštas</label>
+        <input type="email" id="email" formControlName="email">
+        <div *ngIf="EditForm.controls['email'].touched && (EditForm.controls['email'].errors?.['email'] || EditForm.controls['email'].errors?.['maxlength'])" class="error">Neteisingas el.pašto formatas</div>
+      </div>
+      <div class="form-group">
+        <label for="phone">Telefonas</label>
+        <input type="text" id="phone" formControlName="phone">
+        <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('maxlength')" class="error">Telefono numeris per ilgas arba neleistini simboliai</div>
+        <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių</div>
+      </div>
+      <div class="form-group">
+        <label for="born">Gimimo data</label>
+        <input type="text" id="born" formControlName="born">
+      </div>
+      <div class="form-group">
+        <label for="rewards">Apdovanojimai</label>
+        <input type="text" id="rewards" formControlName="rewards">
+      </div>
+      <div class="form-group">
+        <label for="country">Šalis</label>
+        <input type="text" id="country" formControlName="country">     
+      </div>
+      <div class="form-group">
+        <label for="number_of_books">Knygų skaičius</label>
+        <input type="number" id="number_of_books" formControlName="number_of_books">
+        <div *ngIf="EditForm.controls['number_of_books'].touched && (EditForm.controls['number_of_books'].errors?.['min'] || EditForm.controls['number_of_books'].errors?.['pattern'])" class="error">Negali but neigiamas knygų skaičius</div>
+      </div>
+      <button type="submit">Išsaugoti</button>
+    </form>
+  </div>
+  
 
 
 <div class="bordered_div" *ngIf="authorDetails" >
     <h3 style="text-align: center;">{{ authorDetails.full_name }}</h3>
+    <p style="text-align: center;">Šalis: {{ authorDetails.country }}</p>
     <p style="text-align: center;">El. paštas: {{ authorDetails.email }}</p>
     <p style="text-align: center;">Telefonas: {{ authorDetails.phone }}</p>
+    <p style="text-align: center;">Gimimo metai: {{ authorDetails.born }}</p>
+    <p style="text-align: center;">Išleistų knygų skaičius: {{ authorDetails.number_of_books }}</p>
+    <p style="text-align: center;">Apdovanojimai: {{ authorDetails.rewards }}</p>
 </div>

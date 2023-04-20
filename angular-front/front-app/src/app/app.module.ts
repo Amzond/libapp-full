@@ -10,6 +10,7 @@ import { AuthorsComponent } from './authors/authors.component';
 import { AuthorDetailsComponent } from './author-details/author-details.component';
 import { BooksComponent } from './books/books.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
+import { ScrapComponent } from './scrap/scrap.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { BookDetailsComponent } from './book-details/book-details.component';
     AuthorDetailsComponent,
     BooksComponent,
     BookDetailsComponent,
+    ScrapComponent,
   ],
   imports: [
     BrowserModule,

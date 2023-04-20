@@ -1,7 +1,6 @@
+from author.models import Author
 from django.conf import settings
 from elasticsearch import Elasticsearch
-
-from author.models import Author
 
 
 def init_elastic()-> Elasticsearch:
@@ -22,7 +21,7 @@ def es_search_book_by_title(book_title: str):
 def es_search_author_by_name(author_name: str):
     es = init_elastic()
     try:
-        response = es.search(index=settings.ELASTIC_AUTHOR_INDEX, body=es_search_author_by_name_query(author_name), _source=False)
+        response = es.search(index=settings.ELASTIC_AUTHOR_INDEX, body=es_search_author_by_name_query(author_name))
         id = [result['_id'] for result in response['hits']['hits']]
         if not id:
             return None
@@ -44,16 +43,15 @@ def es_search_book_by_title_query(value: str)->dict:
     return {
         "query": {
             "match": {
-                "title": value
+                "title.keyword": value
             }
         }
     }
-    
 def es_search_author_by_name_query(value: str)->dict:
     return {
         "query": {
             "match": {
-                "full_name": value
+                "full_name.keyword": value
             }
         }
     }

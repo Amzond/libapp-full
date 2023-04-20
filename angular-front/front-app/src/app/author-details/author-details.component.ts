@@ -31,7 +31,15 @@ export class AuthorDetailsComponent {
           Validators.maxLength(50)]],
         phone: ['', 
           Validators.compose([Validators.pattern('^[0-9]+$'), 
-          Validators.maxLength(16)])]
+          Validators.maxLength(16)])],
+        born: [''],
+        rewards: [''],
+        country: [''],
+        number_of_books: ['',
+          Validators.compose([
+            Validators.min(0),
+            Validators.pattern('^[0-9]+$')
+          ])]
       });
   }
   EditForm: FormGroup;
@@ -62,15 +70,34 @@ export class AuthorDetailsComponent {
     this.EditForm = this.formBuilder.group({
       full_name: [
         this.authorDetails.full_name, 
-        Validators.required],
+        Validators.required
+      ],
       email: [
         this.authorDetails.email,[
         Validators.email, 
-        Validators.maxLength(50)]],
+        Validators.maxLength(50)]
+      ],
       phone: [
         this.authorDetails.phone, 
         Validators.compose([Validators.pattern('^[0-9]+$'), 
-        Validators.maxLength(16)])]
+        Validators.maxLength(16)])
+      ],
+      born: [
+        this.authorDetails.born
+      ],
+      rewards: [
+        this.authorDetails.rewards
+      ],
+      country: [
+          this.authorDetails.country
+      ],
+      number_of_books: [
+        this.authorDetails.number_of_books,
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+        ])
+      ]
     });
   }
   onEditSubmit(){

@@ -40,6 +40,37 @@ class Book(
         choices = BOOK_STATUS_CODES, 
         default = 0
         )
+    rewards = models.CharField(
+        max_length= 100,
+        blank=True,
+        null=True
+        )
+    isbn = models.CharField(
+        max_length=16,
+        blank=True,
+        null=True
+    )
+    language = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+    translator = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
+    publisher = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
+    cover = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
+    
     
     def __str__(self):
         return f'{self.title}'

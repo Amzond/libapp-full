@@ -5,6 +5,7 @@ import { AuthorsComponent } from './authors/authors.component';
 import { AuthorDetailsComponent } from './author-details/author-details.component';
 import { BooksComponent } from './books/books.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
+import { ScrapComponent } from './scrap/scrap.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'books', component: BooksComponent},
   {path: 'books/:uuid', component: BookDetailsComponent},
   {path: '', redirectTo:'books', pathMatch:'full'},
+  {path: 'scrap', component: ScrapComponent}
 
 ];
 

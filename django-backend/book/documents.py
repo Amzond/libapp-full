@@ -27,7 +27,13 @@ class BookDocument(Document):
             'num_of_pages',
             'release_year',
             'status',
-            'genre'
+            'genre',
+            'isbn',
+            'rewards',
+            'language',
+            'translator',
+            'publisher',
+            'cover'
         ]
         related_models = [Author]
         

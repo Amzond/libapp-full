@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { sortBy } from 'lodash';
+
+
 @Component({
   selector: 'app-books',
   templateUrl: './books.component.html',
@@ -121,6 +123,9 @@ export class BooksComponent {
       this.sortOrder = 'asc';
       this.orderMsg = 'Z...A';
     }
+  }
+  onScrapMenu(){
+    this.router.navigate(['/scrap'])
   }
 
 }

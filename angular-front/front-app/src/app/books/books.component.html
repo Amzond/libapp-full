@@ -74,10 +74,13 @@ select#authors {
     }
     </style>
 
-<div *ngIf="isAuthenticated" style="margin: 30px">
+<div  *ngIf="isAuthenticated" style="margin: 30px; display:flex ">
     <form (ngSubmit)="onCreate()">
         <button type="submit">Pridėti knygą</button>
       </form>
+      <div style="margin-left: 30px">
+        <button (click)="onScrapMenu()" >Knygų papildymo meniu</button>
+      </div>
 </div>
 
 <div  style="max-width: 90%; margin: 0 auto;" *ngIf="showBookForm">
