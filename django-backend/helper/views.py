@@ -13,20 +13,26 @@ def call_scrap(request):
     
     if request.method =="POST":
         book_store = request.data.get('book_store')
-        url = request.data.get('book_url')
+        url = request.data.get('url')
         if book_store == 'vaga':
             if url:
-                scrap.scrap_books_from_vaga(url)
+                added_books = scrap.scrap_books_from_vaga(url)
             else:
-                scrap.scrap_books_from_vaga('')
+                added_books = scrap.scrap_books_from_vaga('')
             
-            return JsonResponse({'details': 'Vaga done'})
+            return JsonResponse({
+                'details': 'Vaga done',
+                'added_books': added_books
+                })
         if book_store == 'knygos':
             if url:
-                scrap.scrap_books_from_knygos(url)
+                added_books = scrap.scrap_books_from_knygos(url)
             else:
-                scrap.scrap_books_from_knygos('')
-            return JsonResponse({'details': 'Knygos done'})
+                added_books = scrap.scrap_books_from_knygos('')
+            return JsonResponse({
+                'details': 'Knygos done',
+                'added_books': added_books
+                })
 
         
 @api_view(['POST'])
@@ -38,8 +44,8 @@ def bookBook(request):
         book = Book.objects.get(pk = bookId)
         book.status = 1
         book.save()
-        return JsonResponse({'details': 'Status changed'})
-    return JsonResponse({'details': ' Failed'})
+        return JsonResponse({'details': 'Knygos statusas pakeistas'})
+    return JsonResponse({'details': ' Nepavyko'})
 
  
 

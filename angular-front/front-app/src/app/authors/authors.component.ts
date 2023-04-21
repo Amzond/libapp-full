@@ -26,20 +26,28 @@ export class AuthorsComponent {
     private loginService: LoginService,
     private formBuilder: FormBuilder){
       this.authorForm = this.formBuilder.group({
-        full_name: ['', Validators.required],
+        full_name: ['', 
+          Validators.required
+        ],
         email: ['', [
           Validators.email, 
-          Validators.maxLength(50)]],
+          Validators.maxLength(50)]
+        ],
         phone: ['', 
-          Validators.compose([Validators.pattern('^[0-9]+$'), 
+        Validators.compose([
+          Validators.pattern('^[0-9]+$'), 
           Validators.maxLength(16)])],
         born: [null,
           Validators.compose([
             Validators.min(0),
             Validators.pattern('^[0-9]+$')
           ])],
-        rewards: [''],
-        country: [''],
+        rewards: ['',
+          Validators.maxLength(50)
+        ],
+        country: ['',
+          Validators.maxLength(50)
+        ],
         number_of_books: [null,
           Validators.compose([
             Validators.min(0),
@@ -73,20 +81,29 @@ export class AuthorsComponent {
   showForm(){
     this.isFormVisible = true;
     this.authorForm = this.formBuilder.group({
-      full_name: ['', Validators.required],
+      full_name: ['', 
+        Validators.required
+      ],
       email: ['', [
         Validators.email, 
-        Validators.maxLength(50)]],
+        Validators.maxLength(50)]
+      ],
       phone: ['', 
-        Validators.compose([Validators.pattern('^[0-9]+$'), 
-        Validators.maxLength(16)])],
+      Validators.compose(
+        [Validators.pattern('^[0-9]+$'), 
+        Validators.maxLength(16)])
+      ],
       born: [null,
         Validators.compose([
           Validators.min(0),
           Validators.pattern('^[0-9]+$')
         ])],
-      rewards: [''],
-      country: [''],
+      rewards: ['',
+        Validators.maxLength(50)
+      ],
+      country: ['',
+        Validators.maxLength(16)
+      ],
       number_of_books: [null,
         Validators.compose([
           Validators.min(0),

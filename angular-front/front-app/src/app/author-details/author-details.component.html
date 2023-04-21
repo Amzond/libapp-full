@@ -102,6 +102,7 @@
     </div>
     
 </div>
+
 <div style="max-width: 80%; margin: 0 auto" *ngIf="EditFormVisible">
     <form [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
       <div class="form-group">
@@ -116,27 +117,29 @@
       </div>
       <div class="form-group">
         <label for="phone">Telefonas</label>
-        <input type="text" id="phone" formControlName="phone">
-        <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('maxlength')" class="error">Telefono numeris per ilgas arba neleistini simboliai</div>
-        <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių</div>
+        <input type="number" id="phone" formControlName="phone">
+        <div *ngIf="EditForm.controls['phone'].touched && EditForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių arba yra per ilgas</div>
+
       </div>
       <div class="form-group">
         <label for="born">Gimimo data</label>
         <input type="number" id="born" formControlName="born">
-        <div *ngIf="EditForm.controls['born'].touched && (EditForm.controls['born'].errors?.['min'] || EditForm.controls['born'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
+        <div *ngIf="EditForm.controls['born'].touched && (EditForm.controls['born'].errors?.['min'] || EditForm.controls['born'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius arba per ilgas skaičius</div>
       </div>
       <div class="form-group">
         <label for="rewards">Apdovanojimai</label>
         <input type="text" id="rewards" formControlName="rewards">
+        <div *ngIf="EditForm.controls['rewards'].touched && (EditForm.controls['rewards'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
       </div>
       <div class="form-group">
         <label for="country">Šalis</label>
         <input type="text" id="country" formControlName="country">     
+        <div *ngIf="EditForm.controls['country'].touched && (EditForm.controls['country'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
       </div>
       <div class="form-group">
         <label for="number_of_books">Knygų skaičius</label>
         <input type="number" id="number_of_books" formControlName="number_of_books">
-        <div *ngIf="EditForm.controls['number_of_books'].touched && (EditForm.controls['number_of_books'].errors?.['min'] || EditForm.controls['number_of_books'].errors?.['pattern'])" class="error">Negali but neigiamas knygų skaičius</div>
+        <div *ngIf="EditForm.controls['number_of_books'].touched && (EditForm.controls['number_of_books'].errors?.['min'] || EditForm.controls['number_of_books'].errors?.['pattern'])" class="error">Negali but neigiamas knygų skaičius arba per ilgas skaičius</div>
       </div>
       <button type="submit">Išsaugoti</button>
     </form>
@@ -146,10 +149,10 @@
 
 <div class="bordered_div" *ngIf="authorDetails" >
     <h3 style="text-align: center;">{{ authorDetails.full_name }}</h3>
-    <p style="text-align: center;">Šalis: {{ authorDetails.country }}</p>
-    <p style="text-align: center;">El. paštas: {{ authorDetails.email }}</p>
-    <p style="text-align: center;">Telefonas: {{ authorDetails.phone }}</p>
-    <p style="text-align: center;">Gimimo metai: {{ authorDetails.born }}</p>
-    <p style="text-align: center;">Išleistų knygų skaičius: {{ authorDetails.number_of_books }}</p>
-    <p style="text-align: center;">Apdovanojimai: {{ authorDetails.rewards }}</p>
+    <p style="text-align: center;"><strong>Šalis:</strong> {{ authorDetails.country }}</p>
+    <p style="text-align: center;"><strong> El. paštas: </strong> {{ authorDetails.email }}</p>
+    <p style="text-align: center;"><strong> Telefonas: </strong>{{ authorDetails.phone }}</p>
+    <p style="text-align: center;"><strong>Gimimo metai: </strong>{{ authorDetails.born }}</p>
+    <p style="text-align: center;"><strong>Išleistų knygų skaičius: </strong>{{ authorDetails.number_of_books }}</p>
+    <p style="text-align: center;"><strong>Apdovanojimai: </strong>{{ authorDetails.rewards }}</p>
 </div>

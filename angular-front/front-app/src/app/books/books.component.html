@@ -31,7 +31,33 @@ select#authors {
         border: 1px solid #ccc;
         border-radius: 2%;
     }
-    
+    .green-background{
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 2%;
+    }
+    .green-background:hover{
+        background-color: #C1E1C1; 
+        cursor: pointer;
+    }
+    .yellow-background{
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 2%;  
+    }
+    .yellow-background:hover{
+        background-color: #FDFD96; 
+        cursor: pointer;
+    }
+    .red-background{
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 2%;  
+    }
+    .red-background:hover{
+        background-color: #FAA0A0; 
+        cursor: pointer;
+    }
     
     .grid-item:hover{
         background-color:#d6d6d4 ; 
@@ -113,6 +139,9 @@ select#authors {
     .error{
         color:red;
     }
+    /* slider */
+
+
 
     </style>
 
@@ -123,18 +152,19 @@ select#authors {
       <form style="margin-left: 30px" (click)="onScrapMenu()">
         <button type="submit" >Knygų papildymo meniu</button>
       </form>
-      <!-- <div style="margin-left: 30px">
-        <button (click)="onScrapMenu()" >Knygų papildymo meniu</button>
-      </div> -->
+
 </div>
 
 <div  style="max-width: 90%; margin: 0 auto;" *ngIf="showBookForm">
+    
+    
     <div class="form-group">
         <form [formGroup]="newBookForm" (ngSubmit)="onSubmitCreateBook()">
            
             <label for="title">Pavadinimas:</label>
             <input type="text" id="title" formControlName="title" required>
             <div style="color:red" *ngIf="newBookForm.controls['title'].touched && newBookForm.controls['title'].errors?.['required']" class="error">Privaloma</div>
+            <div *ngIf="newBookForm.controls['title'].touched && (newBookForm.controls['title'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
             <label for="num_of_pages">Puslapių skaičius:</label>
             <input type="number" id="num_of_pages" formControlName="num_of_pages" min="0">
             <div *ngIf="newBookForm.controls['num_of_pages'].touched && (newBookForm.controls['num_of_pages'].errors?.['min'] || newBookForm.controls['num_of_pages'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
@@ -168,31 +198,37 @@ select#authors {
           <div class="form-group">
             <label for="publisher">Leidėjas:</label>
             <input type="text" id="publisher" formControlName="publisher">
+            <div *ngIf="newBookForm.controls['publisher'].touched && (newBookForm.controls['publisher'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="rewards">Apdovanojimai:</label>
             <input type="text" id="rewards" formControlName="rewards">
+            <div *ngIf="newBookForm.controls['rewards'].touched && (newBookForm.controls['rewards'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="isbn">ISBN:</label>
             <input type="text" id="isbn" formControlName="isbn">
+            <div *ngIf="newBookForm.controls['isbn'].touched && (newBookForm.controls['isbn'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="language">Kalba:</label>
             <input type="text" id="language" formControlName="language">
+            <div *ngIf="newBookForm.controls['language'].touched && (newBookForm.controls['language'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="translator">Vertėjas:</label>
             <input type="text" id="translator" formControlName="translator">
+            <div *ngIf="newBookForm.controls['translator'].touched && (newBookForm.controls['translator'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="cover">Viršelio tipas:</label>
             <input type="text" id="cover" formControlName="cover">
+            <div *ngIf="newBookForm.controls['cover'].touched && (newBookForm.controls['cover'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
           <h2 class="red_text" *ngIf="errorMessage">{{errorMessage}}</h2>
           <button type="submit">Pridėti</button>
@@ -213,9 +249,25 @@ select#authors {
         <div style="margin-left: 15px;">
             <button (click)="toggleSortOrder()">{{ orderMsg }}</button>
         </div>
+        <div style="margin-left: 15px;">
+            <select style="height: 38px" [(ngModel)]="selectedStatus" (ngModelChange)="onSelectStatus($event)">
+                <option value="">Visos</option>
+                <option value="2">Yra</option>
+                <option value="1">Užsakyta</option>
+                <option value="0">Nėra</option>
+              </select>
+        </div>
+        
+        <div style="margin-left: 15px; width: 250px; display: flex;">
+            <p>Puslapiai</p>
+            <mat-slider  style="width: 250px;" discrete min="0" max="2500" >
+                <input matSliderStartThumb (change)="onSelectPages($event, '')">
+                <input matSliderEndThumb (change)="onSelectPages('', $event)" >
+            </mat-slider>
+        </div>
     </div>
     <div class="grid-container">
-        <div class="grid-item" *ngFor="let book of books" (click)="onBook(book.id)">
+        <div [ngClass]="getStatusClass(book.status)" *ngFor="let book of books " (click)="onBook(book.id)">
 
             <h3 style="text-align: center;">{{ book.title }}</h3>
             <p>Puslapiu skaičius: {{ book.num_of_pages }}</p>

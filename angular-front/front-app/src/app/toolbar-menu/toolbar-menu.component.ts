@@ -220,6 +220,4 @@ export class ToolbarMenuComponent implements AfterViewInit{
   changeVisibilityLogOut(){
     this.loginVisibility = false
   }
-
-
 }

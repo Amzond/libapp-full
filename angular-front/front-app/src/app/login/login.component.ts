@@ -32,8 +32,6 @@ export class LoginComponent {
     this.loginService.login(data).subscribe(
       success => {
         if (success) {
-
-          // this.router.navigate(['']);
           location.reload()
         } else {
           console.log('Login failed');

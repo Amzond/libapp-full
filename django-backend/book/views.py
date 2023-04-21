@@ -36,7 +36,10 @@ class BookFilterSet(filters.FilterSet):
             'authors__full_name': [
                 'icontains', 
                 'iexact'
-                ]
+                ],
+            'status': [
+                'exact'
+            ]
         }
    
     def full_text_search_elastic(self, queryset, _,value):

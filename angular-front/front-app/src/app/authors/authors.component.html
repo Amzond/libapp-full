@@ -106,7 +106,7 @@
         <div class="form-group">
           <label for="full_name">Vardas pavardė</label>
           <input type="text" id="full_name" formControlName="full_name">
-          <div style="color:red" *ngIf="authorForm.controls['full_name'].touched && authorForm.controls['full_name'].errors?.['required']" class="error">Privaloma</div>
+          <div style="color:red" *ngIf="authorForm.controls['full_name'].touched && authorForm.controls['full_name'].errors?.['required'] || authorForm.controls['full_name'].errors?.['maxlength']" class="error">Privaloma arba per ilgas vardas</div>
         </div>
         <div class="form-group">
           <label for="email">El. paštas</label>
@@ -115,27 +115,28 @@
         </div>
         <div class="form-group">
           <label for="phone">Telefonas</label>
-          <input type="text" id="phone" formControlName="phone">
-          <div *ngIf="authorForm.controls['phone'].touched && authorForm.controls['phone'].hasError('maxlength')" class="error">Telefono numeris per ilgas arba neleistini simboliai</div>
-          <div *ngIf="authorForm.controls['phone'].touched && authorForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių</div>
+          <input type="number" id="phone" formControlName="phone">
+          <div *ngIf="authorForm.controls['phone'].touched && authorForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių arba yra per ilgas</div>
         </div>
         <div class="form-group">
           <label for="born">Gimimo data</label>
           <input type="number" id="born" formControlName="born">
-          <div *ngIf="authorForm.controls['born'].touched && (authorForm.controls['born'].errors?.['min'] || authorForm.controls['born'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
+          <div *ngIf="authorForm.controls['born'].touched && (authorForm.controls['born'].errors?.['min'] || authorForm.controls['born'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius arba per ilgas skaičius</div>
         </div>
         <div class="form-group">
           <label for="rewards">Apdovanojimai</label>
           <input type="text" id="rewards" formControlName="rewards">
+          <div *ngIf="authorForm.controls['rewards'].touched && (authorForm.controls['rewards'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
         </div>
         <div class="form-group">
           <label for="country">Šalis</label>
-          <input type="text" id="country" formControlName="country">     
+          <input type="text" id="country" formControlName="country">
+          <div *ngIf="authorForm.controls['country'].touched && (authorForm.controls['country'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>     
         </div>
         <div class="form-group">
           <label for="number_of_books">Knygų skaičius</label>
           <input type="number" id="number_of_books" formControlName="number_of_books">
-          <div *ngIf="authorForm.controls['number_of_books'].touched && (authorForm.controls['number_of_books'].errors?.['min'] || authorForm.controls['number_of_books'].errors?.['pattern'])" class="error">Negali but neigiamas knygų skaičius</div>
+          <div *ngIf="authorForm.controls['number_of_books'].touched && (authorForm.controls['number_of_books'].errors?.['min'] || authorForm.controls['number_of_books'].errors?.['pattern'])" class="error">Negali but neigiamas knygų skaičius arba per ilgas skaičius</div>
         </div>
         <button type="submit">Pridėti</button>
       </form>

@@ -24,21 +24,33 @@ export class AuthorDetailsComponent {
     private router: Router,
     private loginService: LoginService,
     private formBuilder: FormBuilder){
-      this.EditForm = this.formBuilder.group({
-        full_name: ['', Validators.required],
-        email: ['', [
+    this.EditForm = this.formBuilder.group({
+        full_name: ['', 
+          Validators.required,
+          Validators.maxLength(100)
+        ],
+        email: ['',[
           Validators.email, 
-          Validators.maxLength(50)]],
+          Validators.maxLength(50)
+        ]  
+        ],
         phone: ['', 
-          Validators.compose([Validators.pattern('^[0-9]+$'), 
-          Validators.maxLength(16)])],
-        born: [null,
           Validators.compose([
-            Validators.min(0),
-            Validators.pattern('^[0-9]+$')
-          ])],
-        rewards: [''],
-        country: [''],
+            Validators.pattern('^[0-9]+$')])
+      ],
+        born: [null,
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+        ])
+        ],
+
+        rewards: ['',
+          Validators.maxLength(50)
+        ],
+        country: ['',
+          Validators.maxLength(50)
+        ],
         number_of_books: [null,
           Validators.compose([
             Validators.min(0),
@@ -73,34 +85,40 @@ export class AuthorDetailsComponent {
     this.EditFormVisible = true
     this.EditForm = this.formBuilder.group({
       full_name: [
-        this.authorDetails.full_name, 
-        Validators.required
+        this.authorDetails.full_name,[
+        Validators.required,
+        Validators.maxLength(100)
+      ]
       ],
       email: [
         this.authorDetails.email,[
-        Validators.email, 
-        Validators.maxLength(50)]
+           Validators.email,
+           Validators.maxLength(50)
+        ]
       ],
       phone: [
-        this.authorDetails.phone, 
-        Validators.compose([Validators.pattern('^[0-9]+$'), 
-        Validators.maxLength(16)])
+        this.authorDetails.phone,
+        Validators.compose([
+          Validators.pattern('^[0-9]+$')])
       ],
       born: [
         this.authorDetails.born,
-        Validators.compose([
-          Validators.min(0),
-          Validators.pattern('^[0-9]+$')
-        ])],
+          Validators.compose([
+            Validators.min(0),
+            Validators.pattern('^[0-9]+$')
+        ])
+      ],
       rewards: [
-        this.authorDetails.rewards
+        this.authorDetails.rewards,
+        Validators.maxLength(50)
       ],
       country: [
-          this.authorDetails.country
+        this.authorDetails.country,
+        Validators.maxLength(50)
       ],
       number_of_books: [
         this.authorDetails.number_of_books,
-        Validators.compose([
+          Validators.compose([
           Validators.min(0),
           Validators.pattern('^[0-9]+$')
         ])

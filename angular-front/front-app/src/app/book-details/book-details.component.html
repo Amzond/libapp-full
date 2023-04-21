@@ -139,7 +139,7 @@
         <form [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
           <label for="title">Pavadinimas:</label>
           <input type="text" id="title" formControlName="title" required>
-      
+          <div style="color:red" *ngIf="EditForm.controls['title'].touched && EditForm.controls['title'].errors?.['required']" class="error">Privaloma</div>
           <label for="num_of_pages">Puslapių skaičius:</label>
           <input type="number" id="num_of_pages" formControlName="num_of_pages" min="0">
           <div *ngIf="EditForm.controls['num_of_pages'].touched && (EditForm.controls['num_of_pages'].errors?.['min'] || EditForm.controls['num_of_pages'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
@@ -172,31 +172,37 @@
           <div class="form-group">
             <label for="publisher">Leidėjas:</label>
             <input type="text" id="publisher" formControlName="publisher">
+            <div *ngIf="EditForm.controls['publisher'].touched && (EditForm.controls['publisher'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="rewards">Apdovanojimai:</label>
             <input type="text" id="rewards" formControlName="rewards">
+            <div *ngIf="EditForm.controls['rewards'].touched && (EditForm.controls['rewards'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="isbn">ISBN:</label>
             <input type="text" id="isbn" formControlName="isbn">
+            <div *ngIf="EditForm.controls['isbn'].touched && (EditForm.controls['isbn'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="language">Kalba:</label>
             <input type="text" id="language" formControlName="language">
+            <div *ngIf="EditForm.controls['language'].touched && (EditForm.controls['language'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="translator">Vertėjas:</label>
             <input type="text" id="translator" formControlName="translator">
+            <div *ngIf="EditForm.controls['translator'].touched && (EditForm.controls['translator'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
       
           <div class="form-group">
             <label for="cover">Viršelio tipas:</label>
             <input type="text" id="cover" formControlName="cover">
+            <div *ngIf="EditForm.controls['cover'].touched && (EditForm.controls['cover'].errors?.['maxlength'])" class="error">Per ilgas tekstas</div>
           </div>
           
           <button type="submit">Išsaugoti</button>
@@ -211,18 +217,18 @@
         <button *ngIf="bookingVisibility" class="ubutton" (click)="onBooking()">Užsakyti knygą</button>
     </div>
     <h3 style="text-align: center;">{{ books.title }}</h3>
-    <p >Puslapiu skaičius: {{ books.num_of_pages }}</p>
-    <p> Žanras: {{books.genre}}</p>
-    <p>Išleidimo data: {{ books.release_year }}</p>
-    <p>Statusas: {{ getStatusLabel(books.status) }}</p>
-    <p>Autorius: </p>
+    <p> <strong>Puslapiu skaičius: </strong>{{ books.num_of_pages }}</p>
+    <p> <strong>Žanras: </strong>{{books.genre}}</p>
+    <p><strong>Išleidimo data: </strong>{{ books.release_year }}</p>
+    <p><strong>Statusas: </strong>{{ getStatusLabel(books.status) }}</p>
+    <p><strong>Autorius: </strong></p>
     <div *ngFor="let authorId of books.authors">
         <p>{{ getAuthorFullName(authorId) }}</p> 
       </div>
-    <p>Leidėjas: {{ books.publisher }} </p>
-    <p>Apdovanojimai: {{ books.rewards }} </p>
-    <p>Vertėjas: {{ books.translator }} </p>
-    <p>Kalba: {{ books.language }} </p>
-    <p>ISBN: {{ books.isbn }} </p>
-    <p>Viršėlis: {{books.cover}}</p>
+    <p><strong>Leidėjas:</strong> {{ books.publisher }} </p>
+    <p><strong>Apdovanojimai: </strong>{{ books.rewards }} </p>
+    <p><strong>Vertėjas:</strong> {{ books.translator }} </p>
+    <p><strong>Kalba: </strong>{{ books.language }} </p>
+    <p><strong>ISBN: </strong>{{ books.isbn }} </p>
+    <p><strong>Viršėlis: </strong>{{books.cover}}</p>
 </div>

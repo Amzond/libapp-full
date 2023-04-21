@@ -43,16 +43,76 @@
         max-width: 90%;
         margin: 0 auto;
     }
+
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; 
+        animation: spin 2s linear infinite;
+    }
+
+
+    @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
 </style>
 
 <div *ngIf="isAuthenticated" class="main_container" >
-    <div>        
+    <div>      
         <h3>vaga.lt knygynas</h3>
-        <button (click)="onVagaClick()">tikrinti</button>
+
+        <form (ngSubmit)="onVagaUrlSubmit()">
+            <label>Ikelkitė nuorodą: </label>
+            <input type="url" [(ngModel)]="url_vaga" name="url_vaga">
+            <button type="submit">Skenuoti</button>
+        </form>
+        <button style="margin-top: 30px" (click)="onVagaClick()">Automatiškai skenuoti</button>
+        <h2 *ngIf="VagaMessage">{{VagaMessage}}</h2>
+        <div *ngIf="isScannigVaga">
+            <h2>Skenuojama</h2>
+            <div class="loader"></div>
+        </div>
+        <div *ngIf="isVisibleVagaAddedBooks">
+            <h2>Pridėtos knygos</h2>
+            <ul>
+                <li  *ngFor="let book of booksVaga">
+                    <h3>{{book}}</h3>
+                </li>
+            </ul>
+        </div>
+    
     </div>
     <div>
+
         <h3>knygos.lt knygynas</h3>
-        <button (click)="onKnygosClick()">tikrinti</button>
+        <form (ngSubmit)="onKnygosUrlSubmit()">
+            <label>Ikelkitė nuorodą: </label>
+            <input type="url" [(ngModel)]="url_knygos" name="url_knygos">
+            <button type="submit">Skenuoti</button>
+        </form>
+        <button style="margin-top: 30px" (click)="onKnygosClick()">Automatiškai skenuoti</button>
+        <h2 *ngIf="KnygosMessage">{{KnygosMessage}}</h2>
+        <div *ngIf="isScannigKnygos">
+            <h2>Skenuojama</h2>
+            <div class="loader"></div>
+        </div>
+        <div *ngIf="isVisibleKnygosAddedBooks">
+            <h2>Pridėtos knygos</h2>
+            <ul>
+                <li  *ngFor="let book of booksKnygos">
+                    <h3>{{book}}</h3>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 

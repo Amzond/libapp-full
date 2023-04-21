@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { BooksService } from '../services/books.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { sortBy } from 'lodash';
-
 
 @Component({
   selector: 'app-books',
@@ -12,9 +11,12 @@ import { sortBy } from 'lodash';
   styleUrls: ['./books.component.scss']
 })
 export class BooksComponent {
+  selectedStatus: string = '';
   newBookForm: FormGroup;
   searchTerm: string = '';
   isAuthenticated = false
+  fromValue = '0';
+  toValue = '2500';
   bookStatusCodes = [
     { value: '0', label: 'Nėra' },
     { value: '1', label: 'Užsakyta' },
@@ -26,26 +28,46 @@ export class BooksComponent {
     private loginService: LoginService, 
     private formBuilder: FormBuilder) {
     this.newBookForm = this.formBuilder.group({
-      title: ['', Validators.required],
+      title: ['', 
+        Validators.required,
+        Validators.maxLength(254)
+      ],
       num_of_pages: [
         0, 
-        Validators.min(0)],
+        Validators.min(0)
+      ],
       release_year: [
         new Date().getFullYear(),
         Validators.compose([
           Validators.min(0),
           Validators.pattern('^[0-9]+$')
-        ])],
+        ])
+      ],
       authors: [[],
-        Validators.required],
-      genre: [''],
+        Validators.required
+      ],
+      genre: ['',
+        Validators.maxLength(254)
+      ],
       status: ['0'],
-      publisher: [''],
-      rewards: [''],
-      isbn: [''],
-      language: [''],
-      translator: [''],
-      cover: ['']
+      publisher: ['',
+        Validators.maxLength(50)
+      ],
+      rewards: ['',
+        Validators.maxLength(100)
+      ],
+      isbn: ['',
+        Validators.maxLength(16)
+      ],
+      language: ['',
+        Validators.maxLength(50)
+      ],
+      translator: ['',
+        Validators.maxLength(50)
+      ],
+      cover: ['',
+        Validators.maxLength(50)
+      ]
     });
    }
    posts : any;
@@ -92,26 +114,41 @@ export class BooksComponent {
     this.newBookForm = this.formBuilder.group({
       title: [
         '', 
-        Validators.required],
+        Validators.required,
+        Validators.maxLength(254),
+      ],
       num_of_pages: [0, 
-        Validators.min(0)],
+        Validators.min(0)
+      ],
       release_year: [
         new Date().getFullYear(),
         Validators.compose([
           Validators.min(0),
           Validators.pattern('^[0-9]+$')
         ])],
-      authors: [
-        [],
-        Validators.required],
+      authors: [[],
+        Validators.required
+      ],
       genre: [''],
       status: ['0'],
-      publisher: [''],
-      rewards: [''],
-      isbn: [''],
-      language: [''],
-      translator: [''],
-      cover: ['']
+      publisher: ['',
+        Validators.maxLength(50)
+      ],
+      rewards: ['',
+        Validators.maxLength(100)
+      ],
+      isbn: ['',
+        Validators.maxLength(16)
+      ],
+      language: ['',
+        Validators.maxLength(50)
+      ],
+      translator: ['',
+        Validators.maxLength(50)
+      ],
+      cover: ['',
+        Validators.maxLength(50)
+      ]
     });
 
    }
@@ -133,8 +170,25 @@ export class BooksComponent {
    }
   getStatusLabel(value: string): string {
       const statusCode = this.bookStatusCodes.find(status => status.value === value);
-      return statusCode ? statusCode.label : 'Nežinomas statusas';
+      if (statusCode) {
+        return statusCode.label;
+      } else {
+        return 'Nežinomas statusas';
+      }
     }
+  getStatusClass(status: string) {
+    switch(status) {
+      case '2':
+        return 'green-background';
+      case '1':
+        return 'yellow-background';
+      case '0':
+        return 'red-background';
+      default:
+        return 'grid-item';
+    }
+  }
+
   getExistingAuthors(){
     this.booksService.getAuthors().subscribe(
       author =>{
@@ -161,6 +215,26 @@ export class BooksComponent {
   }
   onScrapMenu(){
     this.router.navigate(['/scrap'])
+  }
+  onSelectStatus( status: string) {
+      this.booksService.filterByStatus(status).subscribe(
+        book =>{
+          this.books = book
+        }
+      )
+  }
+  onSelectPages(from: any, to:any){
+    if(from){
+      this.fromValue = from.target.value
+    }
+    if(to){
+      this.toValue = to.target.value
+    }
+    this.booksService.filterBooksByPages(this.fromValue,this.toValue).subscribe(
+      book =>{
+        this.books = book
+      }
+    )
   }
 
 }

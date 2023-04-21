@@ -35,7 +35,10 @@ export class BookDetailsComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
       this.EditForm = this.formBuilder.group({
-        title: ['', Validators.required],
+        title: ['', 
+          Validators.required,
+          Validators.maxLength(254)
+        ],
         num_of_pages: [
           0,
           Validators.compose([
@@ -48,15 +51,29 @@ export class BookDetailsComponent {
             Validators.min(0),
             Validators.pattern('^[0-9]+$')
           ])],
-        authors: [[]],
+        authors: [[],
+          Validators.required
+        ],
         genre: [''],
         status: ['0'],
-        publisher: [''],
-        rewards: [''],
-        isbn: [''],
-        language: [''],
-        translator: [''],
-        cover: ['']
+        publisher: ['',
+          Validators.maxLength(50)
+        ],
+        rewards: ['',
+          Validators.maxLength(100)
+        ],
+        isbn: ['',
+          Validators.maxLength(16)
+        ],
+        language: ['',
+          Validators.maxLength(50)
+        ],
+        translator: ['',
+          Validators.maxLength(50)
+        ],
+        cover: ['',
+          Validators.maxLength(50)
+        ]
       });
     }
   ngOnInit() {
@@ -107,7 +124,8 @@ export class BookDetailsComponent {
     this.EditForm = this.formBuilder.group({
       title: [
         this.books.title, 
-        Validators.required],
+        Validators.required
+      ],
       num_of_pages: [
         this.books.num_of_pages, 
         Validators.compose([
@@ -121,23 +139,37 @@ export class BookDetailsComponent {
           Validators.pattern('^[0-9]+$')
         ])],
       authors: [
-        this.books.authors],
+        this.books.authors,
+        Validators.required
+      ],
       genre: [
         this.books.genre],
       status: [
         this.books.status],
       publisher: [
-        this.books.publisher],
+        this.books.publisher,
+        Validators.maxLength(50)
+      ],
       rewards: [
-        this.books.rewards],
+        this.books.rewards,
+        Validators.maxLength(50)
+      ],
       isbn: [
-        this.books.isbn],
+        this.books.isbn,
+        Validators.maxLength(16)
+      ],
       language: [
-        this.books.language],
+        this.books.language,
+        Validators.maxLength(50)
+      ],
       translator: [
-        this.books.translator],
+        this.books.translator,
+        Validators.maxLength(50)
+      ],
       cover: [
-        this.books.cover]
+        this.books.cover,
+        Validators.maxLength(50)
+      ]
     });
   }
   onEditSubmit(){

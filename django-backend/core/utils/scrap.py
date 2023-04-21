@@ -8,6 +8,8 @@ from core.utils import elastic, exceptions
 
 
 def scrap_books_from_vaga(url):
+    
+    list_of_added_books = []
     if url:
         if 'vaga.lt' in url:
             vaga_url = url
@@ -19,7 +21,6 @@ def scrap_books_from_vaga(url):
     except Exception:
         raise exceptions.ServiceUnavailable()
     
-
     main_soup = BeautifulSoup(response.content, 'html.parser')
         
     book_titles = main_soup.find_all('p', class_='name')
@@ -83,11 +84,15 @@ def scrap_books_from_vaga(url):
         )
         obj.authors.set(authors_list)
         
+        
+        list_of_added_books.append(obj_book_title)
+    
+    return list_of_added_books
 
 def scrap_books_from_knygos(url):
     
     
-    
+    list_of_added_books = []
     if url:
         if 'knygos.lt' in url:
             knygos_url = url
@@ -157,7 +162,6 @@ def scrap_books_from_knygos(url):
                 obj_cover = li.text.replace('Formatas:', '').strip()
          
               
-              
         obj = Book.objects.create(
             title=obj_book_title,
             num_of_pages=obj_num_of_pages,
@@ -169,5 +173,9 @@ def scrap_books_from_knygos(url):
             cover=obj_cover
         )
         obj.authors.set(authors_list)
+        list_of_added_books.append(obj_book_title)
+    
+    return list_of_added_books
+
 
         
