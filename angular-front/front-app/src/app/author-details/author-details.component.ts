@@ -32,10 +32,14 @@ export class AuthorDetailsComponent {
         phone: ['', 
           Validators.compose([Validators.pattern('^[0-9]+$'), 
           Validators.maxLength(16)])],
-        born: [''],
+        born: [null,
+          Validators.compose([
+            Validators.min(0),
+            Validators.pattern('^[0-9]+$')
+          ])],
         rewards: [''],
         country: [''],
-        number_of_books: ['',
+        number_of_books: [null,
           Validators.compose([
             Validators.min(0),
             Validators.pattern('^[0-9]+$')
@@ -83,8 +87,11 @@ export class AuthorDetailsComponent {
         Validators.maxLength(16)])
       ],
       born: [
-        this.authorDetails.born
-      ],
+        this.authorDetails.born,
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+        ])],
       rewards: [
         this.authorDetails.rewards
       ],

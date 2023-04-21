@@ -14,7 +14,3 @@ class AuthorSerializer(mixins.BaseSerializerMixin):
             'updated_by', 
             'updated_at'
             ]
-    def validate_born(self, value):
-        if len(str(value)) > 4:
-            raise serializers.ValidationError("Blogas metų formatas(MMMM)")
-        return value

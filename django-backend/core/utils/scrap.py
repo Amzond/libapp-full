@@ -8,9 +8,17 @@ from core.utils import elastic, exceptions
 
 
 def scrap_books_from_vaga(url):
+    if url:
+        if 'vaga.lt' in url:
+            vaga_url = url
+    else:
+        vaga_url = 'https://vaga.lt/naujos-knygos'  
+        
+    try:
+        response = requests.get(vaga_url)
+    except Exception:
+        raise exceptions.ServiceUnavailable()
     
-    vaga_url = 'https://vaga.lt/naujos-knygos'  
-    response = requests.get(vaga_url)
 
     main_soup = BeautifulSoup(response.content, 'html.parser')
         
@@ -28,9 +36,12 @@ def scrap_books_from_vaga(url):
         
         books_propery_des = soup.find_all('span', class_='propery-des')
         a_elements = soup.select('.brand a')
-        
+
         obj_book_title = title.text.strip()
         authors_list = []
+        if a_elements:
+            obj_publisher = a_elements[0].text.strip()
+        
         if a_elements and len(a_elements) >= 2:
             book_authors = a_elements[1].text
             authors = book_authors.split(',')
@@ -49,29 +60,52 @@ def scrap_books_from_vaga(url):
                 authors_list.append(author_id)
  
         #obj_book_release_year = books_propery_des[0].text.strip() if len(books_propery_des) >= 3 else ''
-        if len(books_propery_des) >= 3:
+        
+        if len(books_propery_des) >= 4:
             obj_book_release_year = books_propery_des[0].text.strip()
+        
+        if len(books_propery_des) >= 4:
+            obj_cover = books_propery_des[1].text.strip()
             
+        if len(books_propery_des) >= 4:
+            obj_isbn = books_propery_des[3].text.strip()
         #obj_num_of_pages = books_propery_des[2].text.strip() if len(books_propery_des) >= 3 else ''
-        if len(books_propery_des) >= 3:
+        if len(books_propery_des) >= 4:
             obj_num_of_pages = books_propery_des[2].text.strip()
         
         obj = Book.objects.create(
             title=obj_book_title,
             num_of_pages=obj_num_of_pages,
-            release_year=obj_book_release_year
+            release_year=obj_book_release_year,
+            isbn=obj_isbn,
+            publisher = obj_publisher,
+            cover = obj_cover
         )
         obj.authors.set(authors_list)
         
 
 def scrap_books_from_knygos(url):
     
-    knygos_url = 'https://www.knygos.lt/lt/knygos/naujos/'
+    
+    
+    if url:
+        if 'knygos.lt' in url:
+            knygos_url = url
+    else:
+        knygos_url = 'https://www.knygos.lt/lt/knygos/naujos/'
     try:
         response = requests.get(knygos_url)
     except Exception:
         raise exceptions.ServiceUnavailable()
     
+    
+    obj_book_release_year = ""
+    obj_num_of_pages = ""
+    obj_translator = ""
+    obj_isbn = ""
+    obj_language = ""
+    obj_publisher = ""
+    obj_cover = ""
     main_soup = BeautifulSoup(response.content, 'html.parser')
     
     book_links = main_soup.find_all('a', class_='product-link')
@@ -121,13 +155,15 @@ def scrap_books_from_knygos(url):
                 obj_publisher = li.text.replace('Leidėjas:', '').strip()
             if "Formatas:" in li.text:
                 obj_cover = li.text.replace('Formatas:', '').strip()
-                
+         
+              
+              
         obj = Book.objects.create(
             title=obj_book_title,
             num_of_pages=obj_num_of_pages,
             release_year=obj_book_release_year,
-            tanslator=obj_translator,
             isbn=obj_isbn,
+            translator=obj_translator,
             language=obj_language,
             publisher=obj_publisher,
             cover=obj_cover

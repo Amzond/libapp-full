@@ -11,6 +11,7 @@ import { AuthorDetailsComponent } from './author-details/author-details.componen
 import { BooksComponent } from './books/books.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { ScrapComponent } from './scrap/scrap.component';
+import { ToolbarMenuComponent } from './toolbar-menu/toolbar-menu.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ScrapComponent } from './scrap/scrap.component';
     BooksComponent,
     BookDetailsComponent,
     ScrapComponent,
+    ToolbarMenuComponent,
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,53 @@
         background-color:#d6d6d4 ; 
         cursor: pointer;
     }
+    .form-group {
+        margin-bottom: 1rem;
+        }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+        width: 80%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ccc;
+        }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0069d9;
+    }
+
+    .error {
+        color: red;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
     button {
         background-color: #4CAF50;
         color: white;
@@ -46,12 +93,6 @@
         font-size: 16px;
         flex: 1;
     }
-    .form-group {
-        margin: 15px;
-    }
-    .red_text {
-        color: red;
-    }
 </style>
 <div *ngIf="isAuthenticated" style="margin: 30px">
     <form (ngSubmit)="showForm()">
@@ -60,30 +101,44 @@
 </div>
 
 <div style="max-width: 90%; margin: 0 auto;" *ngIf="isFormVisible">
-    <h2>Autoriaus duomenys</h2>
-    <h2 class="red_text" *ngIf="errorMessage">{{ errorMessage }}</h2>
-    <form  [formGroup]="authorForm" (ngSubmit)="onCreateAuthor()">
+
+      <form [formGroup]="authorForm" (ngSubmit)="onCreateAuthor()">
         <div class="form-group">
-          <label for="full_name">Vardas pavardė</label><br>
+          <label for="full_name">Vardas pavardė</label>
           <input type="text" id="full_name" formControlName="full_name">
           <div style="color:red" *ngIf="authorForm.controls['full_name'].touched && authorForm.controls['full_name'].errors?.['required']" class="error">Privaloma</div>
         </div>
         <div class="form-group">
-          <label for="email">El. paštas</label><br>
+          <label for="email">El. paštas</label>
           <input type="email" id="email" formControlName="email">
           <div *ngIf="authorForm.controls['email'].touched && (authorForm.controls['email'].errors?.['email'] || authorForm.controls['email'].errors?.['maxlength'])" class="error">Neteisingas el.pašto formatas</div>
         </div>
         <div class="form-group">
-          <label for="phone">Telefonas</label><br>
+          <label for="phone">Telefonas</label>
           <input type="text" id="phone" formControlName="phone">
-          <div *ngIf="authorForm.controls['phone'].touched && authorForm.controls['phone'].errors?.['maxlength']" class="error">Telefono numeris per ilgas arba neleistini simboliai</div>
+          <div *ngIf="authorForm.controls['phone'].touched && authorForm.controls['phone'].hasError('maxlength')" class="error">Telefono numeris per ilgas arba neleistini simboliai</div>
           <div *ngIf="authorForm.controls['phone'].touched && authorForm.controls['phone'].hasError('pattern')" class="error">Telefono numeris turi būti sudarytas tik iš skaičių</div>
         </div>
-        <button type="submit">Pridėti autorių</button>
+        <div class="form-group">
+          <label for="born">Gimimo data</label>
+          <input type="number" id="born" formControlName="born">
+          <div *ngIf="authorForm.controls['born'].touched && (authorForm.controls['born'].errors?.['min'] || authorForm.controls['born'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
+        </div>
+        <div class="form-group">
+          <label for="rewards">Apdovanojimai</label>
+          <input type="text" id="rewards" formControlName="rewards">
+        </div>
+        <div class="form-group">
+          <label for="country">Šalis</label>
+          <input type="text" id="country" formControlName="country">     
+        </div>
+        <div class="form-group">
+          <label for="number_of_books">Knygų skaičius</label>
+          <input type="number" id="number_of_books" formControlName="number_of_books">
+          <div *ngIf="authorForm.controls['number_of_books'].touched && (authorForm.controls['number_of_books'].errors?.['min'] || authorForm.controls['number_of_books'].errors?.['pattern'])" class="error">Negali but neigiamas knygų skaičius</div>
+        </div>
+        <button type="submit">Pridėti</button>
       </form>
-      <div style="margin-bottom: 30px;">
-
-      </div>
 </div>
 
 

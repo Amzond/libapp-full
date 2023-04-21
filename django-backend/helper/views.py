@@ -13,11 +13,19 @@ def call_scrap(request):
     
     if request.method =="POST":
         book_store = request.data.get('book_store')
+        url = request.data.get('book_url')
         if book_store == 'vaga':
-            scrap.scrap_books_from_vaga('')
+            if url:
+                scrap.scrap_books_from_vaga(url)
+            else:
+                scrap.scrap_books_from_vaga('')
+            
             return JsonResponse({'details': 'Vaga done'})
         if book_store == 'knygos':
-            scrap.scrap_books_from_vaga('')
+            if url:
+                scrap.scrap_books_from_knygos(url)
+            else:
+                scrap.scrap_books_from_knygos('')
             return JsonResponse({'details': 'Knygos done'})
 
         

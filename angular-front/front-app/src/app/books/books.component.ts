@@ -27,11 +27,25 @@ export class BooksComponent {
     private formBuilder: FormBuilder) {
     this.newBookForm = this.formBuilder.group({
       title: ['', Validators.required],
-      num_of_pages: [0, Validators.min(0)],
-      release_year: [new Date().getFullYear()],
-      authors: [[]],
+      num_of_pages: [
+        0, 
+        Validators.min(0)],
+      release_year: [
+        new Date().getFullYear(),
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+        ])],
+      authors: [[],
+        Validators.required],
       genre: [''],
-      status: ['0']
+      status: ['0'],
+      publisher: [''],
+      rewards: [''],
+      isbn: [''],
+      language: [''],
+      translator: [''],
+      cover: ['']
     });
    }
    posts : any;
@@ -76,18 +90,37 @@ export class BooksComponent {
     this.getExistingAuthors()
     this.showBookForm=true
     this.newBookForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      num_of_pages: [0, Validators.min(0)],
-      release_year: [new Date().getFullYear()],
-      authors: [[]],
+      title: [
+        '', 
+        Validators.required],
+      num_of_pages: [0, 
+        Validators.min(0)],
+      release_year: [
+        new Date().getFullYear(),
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+        ])],
+      authors: [
+        [],
+        Validators.required],
       genre: [''],
-      status: ['0']
+      status: ['0'],
+      publisher: [''],
+      rewards: [''],
+      isbn: [''],
+      language: [''],
+      translator: [''],
+      cover: ['']
     });
 
    }
   onSubmitCreateBook(){
     const bookData = this.newBookForm.value;
-    this.booksService.createBook(bookData).subscribe(
+    if (!Array.isArray(bookData.authors) || bookData.authors.length === 0){
+      this.errorMessage = "Autorius privalomas" 
+    }else{
+      this.booksService.createBook(bookData).subscribe(
       response=>{
         location.reload();
       },
@@ -95,6 +128,8 @@ export class BooksComponent {
         this.errorMessage = "Tokia knyga jau egzistuoja"
       }
     )
+    }
+
    }
   getStatusLabel(value: string): string {
       const statusCode = this.bookStatusCodes.find(status => status.value === value);

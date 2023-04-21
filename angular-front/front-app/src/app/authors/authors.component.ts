@@ -32,8 +32,20 @@ export class AuthorsComponent {
           Validators.maxLength(50)]],
         phone: ['', 
           Validators.compose([Validators.pattern('^[0-9]+$'), 
-          Validators.maxLength(16)])]
-      });
+          Validators.maxLength(16)])],
+        born: [null,
+          Validators.compose([
+            Validators.min(0),
+            Validators.pattern('^[0-9]+$')
+          ])],
+        rewards: [''],
+        country: [''],
+        number_of_books: [null,
+          Validators.compose([
+            Validators.min(0),
+            Validators.pattern('^[0-9]+$')
+          ])]
+        });
   }
   authorForm: FormGroup;
 
@@ -67,8 +79,20 @@ export class AuthorsComponent {
         Validators.maxLength(50)]],
       phone: ['', 
         Validators.compose([Validators.pattern('^[0-9]+$'), 
-        Validators.maxLength(16)])]
-    });
+        Validators.maxLength(16)])],
+      born: [null,
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+        ])],
+      rewards: [''],
+      country: [''],
+      number_of_books: [null,
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+          ])]
+      });
   }
   onCreateAuthor() {
     const authorData = this.authorForm.value;
@@ -100,4 +124,14 @@ export class AuthorsComponent {
       this.orderMsg = 'Z...A';
     }
   }
+  buttonStyle(button : HTMLButtonElement) {
+    button.style.backgroundColor = 'blue';
+  }
+  buttonStyleHover(button: HTMLButtonElement) {
+    button.style.backgroundColor = 'blue';
+  }
 }
+
+
+
+

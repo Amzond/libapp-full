@@ -1,4 +1,5 @@
 <style>
+    
 
     select#authors {
         display: flex;
@@ -43,7 +44,7 @@
         font-size: 16px;
         margin-bottom: 5px;
     }
-    button {
+    .ubutton {
         background-color: #4CAF50;
         color: white;
         padding: 10px 20px;
@@ -52,15 +53,15 @@
         cursor: pointer;
         font-size: 16px;
     }
-    button:hover {
+    .ubutton:hover {
         background-color: #3e8e41;
     }
 
-    button:focus {
+    .ubutton:focus {
         outline: none;
     }
 
-    button:active {
+    .ubutton:active {
         background-color: #e7e7e7;
         color: black;
     }
@@ -71,60 +72,143 @@
         font-size: 16px;
         flex: 1;
     }
-    .form-group {
-        margin: 15px;
-    }
     .red_text {
         color: red;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+        }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+        width: 80%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ccc;
+        }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0069d9;
+    }
+    
+    .error {
+        color: red;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
     }
 </style>
 
 <div class="centered_div" *ngIf="isAuthenticated">
     <div >
         <button (click)="onDelete(bookId)">Ištrinti</button>
-        
     </div>
     <div>
         <button (click)="onEdit()">Redaguoti</button>
     </div>
 </div>
 
-<div style="max-width: 90%; margin: 0 auto;" *ngIf="isEditVisible && books" >
-    <form [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
-        <h2 class="red_text" *ngIf="errorMessage">{{errorMessage}}</h2>
-        <label for="title">Pavadinimas:</label>
-        <input type="text" id="title" formControlName="title" required>
 
-        <label for="num_of_pages">Puslapių skaičius:</label>
-        <input type="number" id="num_of_pages" formControlName="num_of_pages" min="0">
-      
-        <label for="release_year">Išleidimo metai:</label>
-        <input type="number" id="release_year" formControlName="release_year">
-        <br>
-        <label for="authors">Autoriai:</label>
-        <select id="authors" formControlName="authors" multiple>
-            <option *ngFor="let author of existingAuthors" [ngValue]="author.id">
-              {{ author.full_name }}
-            </option>
-          </select>
-      
-        <label for="genre">Žanras:</label>
-        <input type="text" id="genre" formControlName="genre">
-      
-        <label for="status">Statusas:</label>
-        <select id="status" formControlName="status">
-          <option *ngFor="let status of bookStatusCodes" [value]="status.value">{{ status.label }}</option>
-        </select>
-        
-        <button style="margin-left: 30px" type="submit">Išsaugoti</button>
-      </form>
-</div>
+<div style="max-width: 80%; margin: 0 auto;" *ngIf="isEditVisible && books">
 
+    <div class="form-group">
+        <form [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
+          <label for="title">Pavadinimas:</label>
+          <input type="text" id="title" formControlName="title" required>
+      
+          <label for="num_of_pages">Puslapių skaičius:</label>
+          <input type="number" id="num_of_pages" formControlName="num_of_pages" min="0">
+          <div *ngIf="EditForm.controls['num_of_pages'].touched && (EditForm.controls['num_of_pages'].errors?.['min'] || EditForm.controls['num_of_pages'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
+      
+          <label for="release_year">Išleidimo metai:</label>
+          <input type="number" id="release_year" formControlName="release_year">
+          <div *ngIf="EditForm.controls['release_year'].touched && (EditForm.controls['release_year'].errors?.['min'] || EditForm.controls['release_year'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
+          <br>
+          <div class="form-group">
+            <label for="authors">Autoriai:</label>
+            <select id="authors" formControlName="authors" multiple>
+              <option *ngFor="let author of existingAuthors" [ngValue]="author.id">
+                {{ author.full_name }}
+              </option>
+            </select>
+          </div>
+      
+          <div class="form-group">
+            <label for="genre">Žanras:</label>
+            <input type="text" id="genre" formControlName="genre">
+          </div>
+      
+          <div class="form-group">
+            <label for="status">Statusas:</label>
+            <select id="status" formControlName="status">
+              <option *ngFor="let status of bookStatusCodes" [value]="status.value">{{ status.label }}</option>
+            </select>
+          </div>
+      
+          <div class="form-group">
+            <label for="publisher">Leidėjas:</label>
+            <input type="text" id="publisher" formControlName="publisher">
+          </div>
+      
+          <div class="form-group">
+            <label for="rewards">Apdovanojimai:</label>
+            <input type="text" id="rewards" formControlName="rewards">
+          </div>
+      
+          <div class="form-group">
+            <label for="isbn">ISBN:</label>
+            <input type="text" id="isbn" formControlName="isbn">
+          </div>
+      
+          <div class="form-group">
+            <label for="language">Kalba:</label>
+            <input type="text" id="language" formControlName="language">
+          </div>
+      
+          <div class="form-group">
+            <label for="translator">Vertėjas:</label>
+            <input type="text" id="translator" formControlName="translator">
+          </div>
+      
+          <div class="form-group">
+            <label for="cover">Viršelio tipas:</label>
+            <input type="text" id="cover" formControlName="cover">
+          </div>
+          
+          <button type="submit">Išsaugoti</button>
+        </form>
+      </div>
 
+  </div>
+  
 
 <div class="bordered_div" *ngIf="books" >
     <div>
-        <button (click)="onBooking()">Užsakyti knygą</button>
+        <button *ngIf="bookingVisibility" class="ubutton" (click)="onBooking()">Užsakyti knygą</button>
     </div>
     <h3 style="text-align: center;">{{ books.title }}</h3>
     <p >Puslapiu skaičius: {{ books.num_of_pages }}</p>
@@ -135,4 +219,10 @@
     <div *ngFor="let authorId of books.authors">
         <p>{{ getAuthorFullName(authorId) }}</p> 
       </div>
+    <p>Leidėjas: {{ books.publisher }} </p>
+    <p>Apdovanojimai: {{ books.rewards }} </p>
+    <p>Vertėjas: {{ books.translator }} </p>
+    <p>Kalba: {{ books.language }} </p>
+    <p>ISBN: {{ books.isbn }} </p>
+    <p>Viršėlis: {{books.cover}}</p>
 </div>

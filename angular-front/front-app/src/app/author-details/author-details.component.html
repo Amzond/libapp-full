@@ -23,7 +23,7 @@
         margin-bottom: 5px;
     }
     button {
-        background-color: #4CAF50;
+        background-color: #007bff;
         color: white;
         padding: 10px 20px;
         border: none;
@@ -31,6 +31,9 @@
         cursor: pointer;
         font-size: 16px;
         align-items: center;
+    }
+    button:hover{
+        background-color: #0069d9;
     }
     input {
         padding: 10px;
@@ -40,36 +43,51 @@
         flex: 1;
     }
     .form-group {
-        margin: 15px;
+  margin-bottom: 1rem;
+}
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
     }
-    .red_text {
-        color: red;
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+        width: 80%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ccc;
     }
-    .form-group {
-        display: inline-block;
-        width: 30%;
-        margin-right: 2%;
-        margin-bottom: 20px;
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0069d9;
         }
 
-    .form-group:last-child {
-        margin-right: 0;
-        }
-
-    @media only screen and (max-width: 768px) {
-        .form-group {
-            width: 45%;
-        }
-        }
-
-    @media only screen and (max-width: 576px) {
-        .form-group {
-            width: 100%;
-            margin-right: 0;
-        }
-    }
     .error {
-        color:red;
+        color: red;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
     }
 
 </style>
@@ -84,7 +102,7 @@
     </div>
     
 </div>
-<div *ngIf="EditFormVisible">
+<div style="max-width: 80%; margin: 0 auto" *ngIf="EditFormVisible">
     <form [formGroup]="EditForm" (ngSubmit)="onEditSubmit()">
       <div class="form-group">
         <label for="full_name">Vardas pavardė</label>
@@ -104,7 +122,8 @@
       </div>
       <div class="form-group">
         <label for="born">Gimimo data</label>
-        <input type="text" id="born" formControlName="born">
+        <input type="number" id="born" formControlName="born">
+        <div *ngIf="EditForm.controls['born'].touched && (EditForm.controls['born'].errors?.['min'] || EditForm.controls['born'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
       </div>
       <div class="form-group">
         <label for="rewards">Apdovanojimai</label>

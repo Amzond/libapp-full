@@ -22,7 +22,7 @@ export class BookDetailsComponent {
   existingAuthors?: any;
   EditForm: FormGroup;
   errorMessage?: any;
-  bookingVisibility = false;
+  bookingVisibility = true;
   bookStatusCodes = [
     { value: '0', label: 'Nėra' },
     { value: '1', label: 'Užsakyta' },
@@ -36,11 +36,27 @@ export class BookDetailsComponent {
     private formBuilder: FormBuilder) {
       this.EditForm = this.formBuilder.group({
         title: ['', Validators.required],
-        num_of_pages: [0, Validators.min(0)],
-        release_year: [new Date().getFullYear()],
+        num_of_pages: [
+          0,
+          Validators.compose([
+            Validators.min(0),
+            Validators.pattern('^[0-9]+$')
+          ])],
+        release_year: [
+          new Date().getFullYear(),
+          Validators.compose([
+            Validators.min(0),
+            Validators.pattern('^[0-9]+$')
+          ])],
         authors: [[]],
         genre: [''],
-        status: ['0']
+        status: ['0'],
+        publisher: [''],
+        rewards: [''],
+        isbn: [''],
+        language: [''],
+        translator: [''],
+        cover: ['']
       });
     }
   ngOnInit() {
@@ -51,9 +67,10 @@ export class BookDetailsComponent {
       book=> {
         this.books=book
         this.fetchAuthors()
+        this.bookingVisibility = this.ifBooked()
       }
     )
-  
+    
     this.isAuthenticated = this.loginService.isLoggedIn()
   }
   fetchAuthors(): void {
@@ -93,11 +110,34 @@ export class BookDetailsComponent {
         Validators.required],
       num_of_pages: [
         this.books.num_of_pages, 
-        Validators.min(0)],
-      release_year: [this.books.release_year],
-      authors: [this.books.authors],
-      genre: [this.books.genre],
-      status: [this.books.status]
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+        ])],
+      release_year: [
+        this.books.release_year,          
+        Validators.compose([
+          Validators.min(0),
+          Validators.pattern('^[0-9]+$')
+        ])],
+      authors: [
+        this.books.authors],
+      genre: [
+        this.books.genre],
+      status: [
+        this.books.status],
+      publisher: [
+        this.books.publisher],
+      rewards: [
+        this.books.rewards],
+      isbn: [
+        this.books.isbn],
+      language: [
+        this.books.language],
+      translator: [
+        this.books.translator],
+      cover: [
+        this.books.cover]
     });
   }
   onEditSubmit(){
@@ -118,7 +158,6 @@ export class BookDetailsComponent {
     const data = {'id': this.bookId}
     this.bookDetailsService.bookBook(data).subscribe(
       response => {
-        console.log(response)
         location.reload();
       },
       error =>{
@@ -126,4 +165,11 @@ export class BookDetailsComponent {
       }
     )
   }
+  ifBooked(): boolean{
+    if (this.books.status !== '0'){
+      return false
+    }
+    return true
+  }
 }
+
