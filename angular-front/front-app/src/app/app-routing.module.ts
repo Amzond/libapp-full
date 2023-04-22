@@ -7,6 +7,7 @@ import { BooksComponent } from './books/books.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { ScrapComponent } from './scrap/scrap.component';
 
+
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'authors', component: AuthorsComponent},

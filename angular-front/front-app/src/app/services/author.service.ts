@@ -28,4 +28,12 @@ export class AuthorService {
     };
     return this.http.post<any>(this.url+"/", authorData, httpOptions)
   }
+  filterAuthorsByDate(from: any, to:any){
+    return this.http.get(this.url+"/?born__gte="+from+"&born__lte="+to)
+  }
+  private oldest_url = 'http://127.0.0.1:8000/api/get-oldest-author-years/'
+  getOldestYears(): Observable<any>{
+    return this.http.get<any>(this.oldest_url)
+  }
+
 }

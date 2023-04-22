@@ -33,13 +33,12 @@ export class LoginComponent {
       success => {
         if (success) {
           location.reload()
-        } else {
-          console.log('Login failed');
+        } 
+        else {
           this.errorMessage = "Blogas prisijungimo vardas arba slaptažodis"
         }
       },
       error => {
-        console.log('Login error:', error);
         this.errorMessage = "Blogas prisijungimo vardas arba slaptažodis"
       }
     );

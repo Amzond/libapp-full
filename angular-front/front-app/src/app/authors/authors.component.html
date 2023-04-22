@@ -150,11 +150,21 @@
         <div style="margin-block-end: 30px">
             <input [(ngModel)]="searchTerm">
             <button (click)="onSearch()">Ieškoti</button>
+            <div *ngIf="searchErrorMessage">{{searchErrorMessage}}</div>
         </div>
         <div style="margin-left: 15px;">
             <button (click)="toggleSortOrder()">{{ orderMsg }}</button>
         </div>
+        <div style="margin-left: 15px;">
+            <div *ngIf="onBornError">{{ onBornError}}</div>
+            <label>Pagal gimimo metus:</label>
+            <mat-slider  style="margin-left: 15px; width: 300px;" discrete min={{fromBornValueMin}} max='{{ current_years}}' >
+                <input matSliderStartThumb (change)="onBorn($event, '')">
+                <input matSliderEndThumb (change)="onBorn('', $event)" >
+            </mat-slider>
+        </div>
     </div>
+
     <div class="grid-container">
         <div class="grid-item" *ngFor="let author of authors " (click)="onAuthor(author.id)">
             

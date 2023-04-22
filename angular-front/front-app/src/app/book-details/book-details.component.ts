@@ -23,6 +23,10 @@ export class BookDetailsComponent {
   EditForm: FormGroup;
   errorMessage?: any;
   bookingVisibility = true;
+  getDetailsError = ''
+  fetctAuthorError = ''
+  deleteBookError = ''
+  bookingError = ''
   bookStatusCodes = [
     { value: '0', label: 'Nėra' },
     { value: '1', label: 'Užsakyta' },
@@ -85,6 +89,9 @@ export class BookDetailsComponent {
         this.books=book
         this.fetchAuthors()
         this.bookingVisibility = this.ifBooked()
+      },
+      error =>{
+        this.getDetailsError = "Įvyko klaida"
       }
     )
     
@@ -96,6 +103,9 @@ export class BookDetailsComponent {
       auth => {
         this.author=auth
         this.authorsMap[authorId] = this.author;
+      },
+      error =>{
+        this.fetctAuthorError = "Įvyko klaida"
       }); 
     });
   }
@@ -109,7 +119,7 @@ export class BookDetailsComponent {
         this.router.navigate(['books/']);
       },
       error =>{
-        console.log("nepavyko istrint")
+        this.deleteBookError = 'Įvyko klaida'
       }
     )
   }
@@ -193,7 +203,7 @@ export class BookDetailsComponent {
         location.reload();
       },
       error =>{
-
+        this.bookingError = 'Įvyko klaida'
       }
     )
   }

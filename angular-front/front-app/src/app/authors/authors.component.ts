@@ -3,7 +3,7 @@ import { AuthorService } from '../services/author.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
-import { sortBy } from 'lodash';
+import { clone, sortBy } from 'lodash';
 
 @Component({
   selector: 'app-authors',
@@ -19,7 +19,12 @@ export class AuthorsComponent {
   errorMessage?: any;
   sortOrder = "desc"
   orderMsg = "A...Z"
-
+  fromBornValue = ''
+  fromBornValueMin = ''
+  onBornError = ''
+  toBornValue = new Date().getFullYear();
+  current_years = new Date().getFullYear()
+  searchErrorMessage = ''
   constructor(
     private aurhorService: AuthorService, 
     private router: Router,
@@ -59,7 +64,9 @@ export class AuthorsComponent {
 
   ngOnInit() {
     this.getAuthors()
+    this.getOldest()
     this.isAuthenticated = this.loginService.isLoggedIn()
+
   }
   private getAuthors(): void{
     this.aurhorService.getAuthors().subscribe(
@@ -75,7 +82,9 @@ export class AuthorsComponent {
     this.aurhorService.searchAuthors(this.searchTerm).subscribe(
       (author)=>{
         this.authors=author
-      }
+      },
+      error =>
+        this.searchErrorMessage = "Ivyko klaida"
       )
   }
   showForm(){
@@ -147,6 +156,33 @@ export class AuthorsComponent {
   buttonStyleHover(button: HTMLButtonElement) {
     button.style.backgroundColor = 'blue';
   }
+  onBorn(from: any, to:any){
+    if(from){
+      this.fromBornValue = from.target.value
+    }
+    if(to){
+      this.toBornValue = to.target.value
+    }
+    this.aurhorService.filterAuthorsByDate(this.fromBornValue, this.toBornValue).subscribe(
+      author =>{
+        this.authors = author
+      },
+      error =>{
+        this.onBornError = 'Įvyko klaida'
+      }
+    )
+  }
+  getOldest(){
+    this.aurhorService.getOldestYears().subscribe(
+      response =>{
+        this.fromBornValueMin = response
+      },
+      error =>{
+        this.fromBornValueMin = '0'
+      }
+    )
+  }
+
 }
 
 

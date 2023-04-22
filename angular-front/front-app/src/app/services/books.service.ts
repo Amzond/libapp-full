@@ -19,7 +19,7 @@ export class BooksService {
   private filter_by_status_url = 'http://127.0.0.1:8000/api/books/?status=';
 
 
-  // "release_year__gte=&release_year__lte=&genre__iexact=&genre__icontains=&status="
+  // "genre__iexact="
   getBooks(): Observable<any> {
     return this.http.get<any>(this.url);
   }
@@ -42,9 +42,24 @@ export class BooksService {
   filterBooksByPages(from: string, to: string): Observable<any>{
     return this.http.get<any>(this.url+"/?num_of_pages__gte="+from+"&num_of_pages__lte="+to)
   }
-  filterBooksByReleaseYear(from:string, to:string): Observable<any>{
+  filterBooksByReleaseYear(from:any, to:any): Observable<any>{
     return this.http.get<any>(this.url+"/?release_year__gte="+from+"&release_year__lte="+to)
   }
-  
+  private get_genres_url = 'http://127.0.0.1:8000/api/get-all-genres/'
+  getAllGenres(): Observable<any>{
+    return this.http.get<any>(this.get_genres_url)
+  }
+  filterBooksByGenre(genre:any): Observable<any>{
+    return this.http.get<any>(this.url+"/?genre__iexact="+genre)
+  }
+  private get_min_pages_url = 'http://127.0.0.1:8000/api/get-min-pages/'
+  getMinPages(): Observable<any>{
+    return this.http.get<any>(this.get_min_pages_url)
+  }
+  private get_max_pages_url = 'http://127.0.0.1:8000/api/get-max-pages/'
+  getMaxPages(): Observable<any>{
+    return this.http.get<any>(this.get_max_pages_url)
+  }
+
 
 }

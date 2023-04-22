@@ -13,13 +13,17 @@ export class ScrapComponent {
   isScannigKnygos = false
   isAuthenticated = false
   url_vaga?: any
+  url_vaga_single_book?: any
   url_knygos?: any
+  url_knygos_single_book?: any
   booksVaga: any
   booksKnygos: any
   isVisibleVagaAddedBooks = false
   isVisibleKnygosAddedBooks = false
   VagaMessage = ''
   KnygosMessage = ''
+  scrapSingleBookErrorKnygos = ''
+  scrapSingleBookErrorVaga = ''
   constructor(
     private loginService: LoginService,
     private scrapService: ScrapService,
@@ -28,14 +32,61 @@ export class ScrapComponent {
   ngOnInit(){
     this.isAuthenticated = this.loginService.isLoggedIn()
   }
+  onVagaSingleUrlSubmit(){
+    this.isScannigVaga = true
+    const bookStore = {
+      'book_store': 'vaga',
+      'url': this.url_vaga_single_book 
+    }
+    this.scrapService.scrapeSingleBook(bookStore).subscribe(
+      response =>{
+        this.isScannigVaga = false
+
+        if (response.added_books.length > 0){
+          this.booksVaga = response.added_books
+          this.isVisibleVagaAddedBooks = true
+        }
+        else{
+          this.VagaMessage = "Nerasta naujų knygų"
+        }
+      },
+      error =>{
+        this.scrapSingleBookErrorVaga = "Įvyko klaida"
+      }
+    )
+
+  }
+  onKnygosSingleUrlSubmit(){
+    this.isScannigKnygos = true
+    const bookStore = {
+      'book_store': 'knygos',
+      'url': this.url_knygos_single_book 
+    }
+    this.scrapService.scrapeSingleBook(bookStore).subscribe(
+      response =>{
+        this.isScannigKnygos = false
+        if (response.added_books.length > 0){
+          this.booksKnygos = response.added_books
+          this.isVisibleKnygosAddedBooks = true
+        }
+        else{
+          this.KnygosMessage = "Nerasta naujų knygų"
+        }
+      },
+      error =>{
+        this.scrapSingleBookErrorKnygos = "Įvyko klaida"
+      }
+      )
+
+  }
   onVagaUrlSubmit(){
     this.isScannigVaga = true
     const bookStore = {
       'book_store': 'vaga',
-      'url_vaga': this.url_vaga 
+      'url': this.url_vaga 
     }
     
-    this.scrapService.scrapeDataVaga(bookStore).subscribe(
+    this.scrapService.scrapeData(bookStore).subscribe(
       response => {
         this.isScannigVaga = false
         if (response.added_books.length > 0){
@@ -47,14 +98,14 @@ export class ScrapComponent {
         }
       },
       error => {
-        this.VagaMessage = error
+        this.VagaMessage = "Įvyko klaida"
       }
     )
   }
   onVagaClick(){
     this.isScannigVaga = true
     const bookStore = {'book_store': 'vaga'};
-    this.scrapService.scrapeDataVaga(bookStore).subscribe(
+    this.scrapService.scrapeData(bookStore).subscribe(
       response => {
         this.isScannigVaga = false
         if (response.added_books.length > 0){
@@ -66,7 +117,7 @@ export class ScrapComponent {
         }
       },
       error => {
-        this.VagaMessage = error
+        this.VagaMessage = "Įvyko klaida"
       }
     )
   }
@@ -74,9 +125,9 @@ export class ScrapComponent {
     this.isScannigKnygos = true
     const bookStore = {
       'book_store': 'knygos',
-      'url_knygos': this.url_knygos 
+      'url': this.url_knygos 
     }
-    this.scrapService.scrapeDataVaga(bookStore).subscribe(
+    this.scrapService.scrapeData(bookStore).subscribe(
       response => {
         this.isScannigKnygos = false
         if (response.added_books.length > 0){
@@ -88,7 +139,7 @@ export class ScrapComponent {
         }
       },
       error => {
-        this.KnygosMessage = error
+        this.KnygosMessage = "Įvyko klaida"
       }
     )
   }
@@ -96,7 +147,7 @@ export class ScrapComponent {
     this.isScannigKnygos = true
     const bookStore = {'book_store': 'knygos'};
     
-    this.scrapService.scrapeDataVaga(bookStore).subscribe(
+    this.scrapService.scrapeData(bookStore).subscribe(
       response => {
         this.isScannigKnygos = false
         if (response.added_books.length > 0){
@@ -107,7 +158,7 @@ export class ScrapComponent {
         }
       },
       error => {
-        this.KnygosMessage = error
+        this.KnygosMessage = "Įvyko klaida"
       }
     )
   }

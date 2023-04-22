@@ -27,6 +27,10 @@ class AuthorFilterSet(filters.FilterSet):
             'phone': [
                 'iexact', 
                 'icontains'
+                ] ,
+            'born':[
+                'gte',
+                'lte'
                 ]
         }
 
@@ -36,25 +40,16 @@ class AuthorFilterSet(filters.FilterSet):
         payload = elastic.es_full_text_search_query(value)
         try:
             response = es.search(index=settings.ELASTIC_AUTHOR_INDEX, body=payload, _source=False)
-            author_ids = [result['_id'] for result in response['hits']['hits']]
+            hits = response['hits']['hits']
+            author_ids = []
+            for hit in hits:
+                author_id = hit['_id']
+                author_ids.append(author_id)
         except Exception:
             raise exceptions.ServiceUnavailable()
         return queryset.filter(pk__in=author_ids)
 
-# class AuthorViewSet(viewsets.ModelViewSet):
-#     serializer_class = AuthorSerializer
-#     queryset = Author.objects.all()
-#     permission_classes = [IsAuthenticatedOrReadOnly]
-#     filterset_class = AuthorFilterSet
-    
-#     def destroy(self, *args, **kwargs):
-#         if self.get_object().book_set.exists():
-#             return Response(
-#                 status=status.HTTP_400_BAD_REQUEST,
-#                 data={'detail: negalima ištrinti autoriaus, nes jis turi knygų'}
-#                 )
             
-    
 class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
     queryset = Author.objects.all()
@@ -78,19 +73,19 @@ class AuthorViewSet(viewsets.ModelViewSet):
             data=request.data,  
             context={
                 'request': request
-                }
-            )
+            }
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(
                 serializer.data, 
                 status=status.HTTP_201_CREATED
-                )
+            )
         else:
             return Response(
                 serializer.errors, 
                 status=status.HTTP_400_BAD_REQUEST
-                )
+            )
 
     def retrieve(self, request, pk=None):
         queryset = get_object_or_404(Author, pk=pk)
@@ -122,8 +117,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
             partial=True,  
             context={
                 'request': request
-                }
-            )
+            }
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -131,7 +126,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
             return Response(
                 serializer.errors, 
                 status=status.HTTP_400_BAD_REQUEST
-                )
+            )
 
     def destroy(self, request, pk=None):
         queryset = get_object_or_404(Author, pk=pk)
@@ -142,3 +137,4 @@ class AuthorViewSet(viewsets.ModelViewSet):
             )
         queryset.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    

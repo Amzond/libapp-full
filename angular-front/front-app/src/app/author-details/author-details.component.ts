@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-author-details',
@@ -18,6 +19,9 @@ export class AuthorDetailsComponent {
   EditFormVisible = false
   editErrorMsg?: any;
   emailInput?: any;
+  authorBooks: any;
+  showAuthorBooks = false
+  requestErrorMessage = ''
   constructor(
     private authorDetailsService: AuthorDetailsService, 
     private route: ActivatedRoute,
@@ -66,6 +70,7 @@ export class AuthorDetailsComponent {
       this.authorDetailsService.getAuthorDetails(this.AuthorId).subscribe(
         author =>{
           this.authorDetails = author
+          this.getAuhorBooks(this.authorDetails.id)
         }
       )
     });
@@ -135,4 +140,22 @@ export class AuthorDetailsComponent {
       }
     )
   }
+  getAuhorBooks(id: any){
+    const authorID = {'uuid': id}
+    this.authorDetailsService.getAuthorBooks(authorID).subscribe(
+      bookId =>{
+        this.authorBooks = bookId
+        this.showAuthorBooks = true
+      },
+      error =>
+      {
+        this.requestErrorMessage = "Įvyko klaida"
+      }
+    )
+  }
+  onBook(id:any){
+    console.log(id)
+    this.router.navigate(['/books', id])  
+  }
+
 }

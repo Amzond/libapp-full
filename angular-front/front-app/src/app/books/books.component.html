@@ -170,7 +170,7 @@ select#authors {
             <div *ngIf="newBookForm.controls['num_of_pages'].touched && (newBookForm.controls['num_of_pages'].errors?.['min'] || newBookForm.controls['num_of_pages'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
       
             <label for="release_year">Išleidimo metai:</label>
-            <input type="number" id="release_year" formControlName="release_year">
+            <input  type="number" id="release_year" formControlName="release_year">
             <div *ngIf="newBookForm.controls['release_year'].touched && (newBookForm.controls['release_year'].errors?.['min'] || newBookForm.controls['release_year'].errors?.['pattern'])" class="error">Negali but neigiamas skaičius</div>
             <br>
             <div class="form-group">
@@ -243,6 +243,7 @@ select#authors {
 <div style="max-width: 90%; margin: 0 auto;">
     <div style="display: flex">
         <div style="margin-block-end: 30px">
+            <div *ngIf="searchError">{{searchError}}</div>
             <input [(ngModel)]="searchTerm">
             <button (click)="onSearch()">Ieškoti</button>
         </div>
@@ -258,16 +259,38 @@ select#authors {
               </select>
         </div>
         
-        <div style="margin-left: 15px; width: 250px; display: flex;">
-            <p>Puslapiai</p>
-            <mat-slider  style="width: 250px;" discrete min="0" max="2500" >
+        <div style="margin-left: 15px; width: 350px; display: flex;">
+            <label>Pagal puslapių kiekį:</label>
+            <mat-slider  style="margin-left: 15px; width: 250px;" discrete min={{fromPagesMin}} max={{toPagesMax}} >
                 <input matSliderStartThumb (change)="onSelectPages($event, '')">
                 <input matSliderEndThumb (change)="onSelectPages('', $event)" >
             </mat-slider>
         </div>
+        <div style="margin-left: 15px; margin-bottom: 30px; max-width: 300px;">
+            <div style="display: flex">
+                <div *ngIf="filterByYearsError">{{filterByYearsError}}</div>
+                <div>
+                    <label>Išleidimo metai nuo:</label>
+                    <input  type="number" (change)="onSelectReleaseYears($event,'')">
+                </div>
+                <div>
+                    <label>iki: </label>
+                    <input  type="number" (change)="onSelectReleaseYears('',$event)">
+                </div>
+            </div>
+        </div>
+        <div style="margin-left: 15px; margin-bottom: 30px; max-width: 100px;">
+            <div>
+                <select  style="height: 38px"  [(ngModel)]="selectedGenre" (ngModelChange)="onGenres($event)">
+                    <option value="">Visi žanrai</option>
+                    <option *ngFor="let genre of allGenres" [value]="genre">{{ genre }}</option>
+                  </select>
+            </div>
+        </div>
     </div>
     <div class="grid-container">
-        <div [ngClass]="getStatusClass(book.status)" *ngFor="let book of books " (click)="onBook(book.id)">
+        <div *ngIf="errorMsg">{{errorMsg}}</div>
+        <div  [ngClass]="getStatusClass(book.status)" *ngFor="let book of books " (click)="onBook(book.id)">
 
             <h3 style="text-align: center;">{{ book.title }}</h3>
             <p>Puslapiu skaičius: {{ book.num_of_pages }}</p>

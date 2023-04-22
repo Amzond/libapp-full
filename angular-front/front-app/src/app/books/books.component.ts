@@ -12,11 +12,19 @@ import { sortBy } from 'lodash';
 })
 export class BooksComponent {
   selectedStatus: string = '';
+  selectedGenre: string = '';
   newBookForm: FormGroup;
   searchTerm: string = '';
   isAuthenticated = false
   fromValue = '0';
   toValue = '2500';
+  fromYearValue = '0';
+  allGenres: any;
+  fromPagesMin = '0'
+  toPagesMax = '2500'
+  searchError = ''
+  filterByYearsError = ''
+  toYearValue = new Date().getFullYear();
   bookStatusCodes = [
     { value: '0', label: 'Nėra' },
     { value: '1', label: 'Užsakyta' },
@@ -76,14 +84,18 @@ export class BooksComponent {
    showBookForm = false
    existingAuthors?: any;
    bookAuthors?: any;
-   errorMsg?: any;
+   errorMsg = ''
    errorMessage?: any;
    sortOrder = "desc"
    orderMsg = "A...Z"
 
    ngOnInit() {
       this.getBooksData()
+      this.getAllGenres()
+      this.getMinPageNum()
+      this.getMaxPageNum()
       this.isAuthenticated = this.loginService.isLoggedIn()
+      
    }
     getBooksData(){
       this.booksService.getBooks().subscribe(
@@ -102,6 +114,9 @@ export class BooksComponent {
     this.booksService.searchBooks(this.searchTerm).subscribe(
       book => {
         this.books = book
+      },
+      error => {
+        this.searchError = "Įvyko klaida"
       }
     )
    }
@@ -150,8 +165,7 @@ export class BooksComponent {
         Validators.maxLength(50)
       ]
     });
-
-   }
+  }
   onSubmitCreateBook(){
     const bookData = this.newBookForm.value;
     if (!Array.isArray(bookData.authors) || bookData.authors.length === 0){
@@ -166,8 +180,7 @@ export class BooksComponent {
       }
     )
     }
-
-   }
+  }
   getStatusLabel(value: string): string {
       const statusCode = this.bookStatusCodes.find(status => status.value === value);
       if (statusCode) {
@@ -194,7 +207,9 @@ export class BooksComponent {
       author =>{
         this.existingAuthors = author
       },
-      error => {}
+      error => {
+        this.existingAuthors = []
+      }
     )
   }
 
@@ -233,6 +248,57 @@ export class BooksComponent {
     this.booksService.filterBooksByPages(this.fromValue,this.toValue).subscribe(
       book =>{
         this.books = book
+      }
+    )
+  }
+  onSelectReleaseYears(from: any, to:any){
+    if(from){
+      this.fromYearValue = from.target.value
+    }
+    if(to){
+      this.toYearValue = to.target.value
+    }
+    this.booksService.filterBooksByReleaseYear(this.fromYearValue, this.toYearValue).subscribe(
+      book =>{
+        this.books = book
+      },
+      error =>{
+        this.filterByYearsError = "Įvyko klaida"
+      }
+    )
+  }
+  getAllGenres(){
+    this.booksService.getAllGenres().subscribe(
+      genre =>{
+        this.allGenres = genre
+      }
+    )
+  }
+  onGenres(value:any){
+    
+    this.booksService.filterBooksByGenre(value).subscribe(
+      book => {
+        this.books = book
+      }
+    )
+  }
+  getMaxPageNum(){
+    this.booksService.getMaxPages().subscribe(
+      response => {
+        this.toPagesMax = response
+      },
+      error =>{
+        this.toPagesMax = '2500'
+      }
+    )
+  }
+  getMinPageNum(){
+    this.booksService.getMinPages().subscribe(
+      respones => {
+        this.fromPagesMin = respones
+      },
+      error =>{
+        this.fromPagesMin = '0'
       }
     )
   }

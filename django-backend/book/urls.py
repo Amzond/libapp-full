@@ -12,9 +12,11 @@ urlpatterns = [
     ),
     path(
         '<uuid:pk>', 
-        BookViewSet.as_view({'get': 'retrieve', 
-                             'delete': 'destroy',
-                             'patch': 'partial_update'}), 
+        BookViewSet.as_view({
+            'get': 'retrieve', 
+            'delete': 'destroy',
+            'patch': 'partial_update'
+            }), 
         name='book-detail'
     )
 ]

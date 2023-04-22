@@ -28,7 +28,7 @@ export class ToolbarMenuComponent implements AfterViewInit{
   ) {}
   
   loginVisibility = true
-  loginButtonText?: string
+  loginButtonText?: string 
 
   ngOnInit(){
     if (this.loginService.isLoggedIn() === false){
@@ -201,7 +201,7 @@ export class ToolbarMenuComponent implements AfterViewInit{
   }
 
   onToUp(){
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({  top: 0, behavior:'smooth' })
   }
   onAutoriai(){
     this.router.navigate(['authors'])  
@@ -209,10 +209,8 @@ export class ToolbarMenuComponent implements AfterViewInit{
   onKnygos(){
     this.router.navigate(['books'])  
   }
-
   onLogin(){
     this.router.navigate(['login'])
-    
   }
   onLogOut(){
     this.router.navigate(['login'])

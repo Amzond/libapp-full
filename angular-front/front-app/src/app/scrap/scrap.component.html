@@ -71,11 +71,21 @@
         <h3>vaga.lt knygynas</h3>
 
         <form (ngSubmit)="onVagaUrlSubmit()">
-            <label>Ikelkitė nuorodą: </label>
+            <label>Ikelkitė knygų puslapio nuorodą: </label>
             <input type="url" [(ngModel)]="url_vaga" name="url_vaga">
             <button type="submit">Skenuoti</button>
         </form>
-        <button style="margin-top: 30px" (click)="onVagaClick()">Automatiškai skenuoti</button>
+
+        <form style="margin-top:30px" (ngSubmit)="onVagaSingleUrlSubmit()">
+            <label>Ikelkitė vienos nuorodą: </label>
+            <input type="url" [(ngModel)]="url_vaga_single_book" name="url_vaga_single_book">
+            <button type="submit">Skenuoti</button>
+            <div *ngIf="scrapSingleBookErrorVaga">{{scrapSingleBookErrorVaga}}</div>
+        </form>
+
+
+
+        <button style="margin-top: 30px" [disabled]="isScannigVaga" (click)="onVagaClick()">Automatiškai skenuoti</button>
         <h2 *ngIf="VagaMessage">{{VagaMessage}}</h2>
         <div *ngIf="isScannigVaga">
             <h2>Skenuojama</h2>
@@ -95,11 +105,19 @@
 
         <h3>knygos.lt knygynas</h3>
         <form (ngSubmit)="onKnygosUrlSubmit()">
-            <label>Ikelkitė nuorodą: </label>
+            <label>Ikelkitė knygų puslapio nuorodą: </label>
             <input type="url" [(ngModel)]="url_knygos" name="url_knygos">
             <button type="submit">Skenuoti</button>
         </form>
-        <button style="margin-top: 30px" (click)="onKnygosClick()">Automatiškai skenuoti</button>
+
+        <form style="margin-top:30px"  (ngSubmit)="onKnygosSingleUrlSubmit()">
+            <label>Ikelkitė vienos nuorodą: </label>
+            <input type="url" [(ngModel)]="url_knygos_single_book" name="url_knygos_single_book">
+            <button type="submit">Skenuoti</button>
+            <div *ngIf="scrapSingleBookErrorKnygos">{{scrapSingleBookErrorKnygos}}</div>
+        </form>
+
+        <button style="margin-top: 30px" [disabled]="isScannigKnygos"  (click)="onKnygosClick()">Automatiškai skenuoti</button>
         <h2 *ngIf="KnygosMessage">{{KnygosMessage}}</h2>
         <div *ngIf="isScannigKnygos">
             <h2>Skenuojama</h2>

@@ -126,6 +126,7 @@
 <div class="centered_div" *ngIf="isAuthenticated">
     <div >
         <button (click)="onDelete(bookId)">Ištrinti</button>
+        <div *ngIf="deleteBookError">{{deleteBookError}}</div>
     </div>
     <div>
         <button (click)="onEdit()">Redaguoti</button>
@@ -211,10 +212,11 @@
 
   </div>
   
-
+<div *ngIf="getDetailsError">{{getDetailsError}}</div>
 <div class="bordered_div" *ngIf="books" >
     <div>
         <button *ngIf="bookingVisibility" class="ubutton" (click)="onBooking()">Užsakyti knygą</button>
+        <div *ngIf="bookingError">{{bookingError}}</div>
     </div>
     <h3 style="text-align: center;">{{ books.title }}</h3>
     <p> <strong>Puslapiu skaičius: </strong>{{ books.num_of_pages }}</p>
@@ -222,7 +224,9 @@
     <p><strong>Išleidimo data: </strong>{{ books.release_year }}</p>
     <p><strong>Statusas: </strong>{{ getStatusLabel(books.status) }}</p>
     <p><strong>Autorius: </strong></p>
+    <div *ngIf="fetctAuthorError">{{fetctAuthorError}}</div>
     <div *ngFor="let authorId of books.authors">
+      
         <p>{{ getAuthorFullName(authorId) }}</p> 
       </div>
     <p><strong>Leidėjas:</strong> {{ books.publisher }} </p>

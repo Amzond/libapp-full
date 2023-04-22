@@ -22,6 +22,8 @@
     "angular-range-slider": "^3.3.0",
     "ionic-angular": "^3.9.10",
     "lodash": "^4.17.21",
+    "ngx-webcam": "^0.4.1",
+    "quagga": "^0.12.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

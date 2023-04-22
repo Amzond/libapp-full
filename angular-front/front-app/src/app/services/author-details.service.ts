@@ -31,5 +31,9 @@ export class AuthorDetailsService {
     };
     return this.http.patch<any>(this.url+id, data, httpOptions);
   } 
+  private url_get_books = 'http://127.0.0.1:8000/api/get-author-books/'
+  getAuthorBooks(id: any): Observable<any>{
+    return this.http.post<any>(this.url_get_books, id)
+  }
 }
 

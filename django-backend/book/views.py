@@ -48,25 +48,16 @@ class BookFilterSet(filters.FilterSet):
         payload = elastic.es_full_text_search_query(value)
         try:
             response = es.search(index=settings.ELASTIC_BOOK_INDEX, body=payload, _source=False)
-            book_ids = [result['_id'] for result in response['hits']['hits']]
+            hits = response['hits']['hits']
+            book_ids = []
+            for hit in hits:
+                book_id = hit['_id']
+                book_ids.append(book_id)
         except Exception:
             raise exceptions.ServiceUnavailable()
         results = queryset.filter(pk__in=book_ids)
         return results
     
-# class BookViewSet(viewsets.ModelViewSet):
-#     queryset = Book.objects.all()
-#     serializer_class = BookSerializer
-#     permission_classes = [IsAuthenticatedOrReadOnly]
-#     filterset_class = BookFilterSet
-    
-#     def destroy(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#         author_ids = list(instance.authors.values_list('pk', flat=True))
-#         self.perform_destroy(instance)
-#         task_author_delete.delay(author_ids)
-
-
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -80,8 +71,8 @@ class BookViewSet(viewsets.ModelViewSet):
             many=True,
             context={
                 'request': request
-                }
-            )
+            }
+        )
         return super().list(self,request)
     
     def create(self, request, *args, **kwargs):
@@ -89,14 +80,14 @@ class BookViewSet(viewsets.ModelViewSet):
             data=request.data,            
             context={
                 'request': request
-                }
-            )
+            }
+        )
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
         return Response(
             self.serializer_class(instance).data, 
             status=status.HTTP_201_CREATED
-            )
+        )
     
     def retrieve(self, request, pk=None, *args, **kwargs):
         instance = self.get_object()
@@ -124,8 +115,8 @@ class BookViewSet(viewsets.ModelViewSet):
             partial=True,
             context={
                 'request': request
-                }
-            )
+            }
+        )
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
         return Response(self.serializer_class(instance).data)
