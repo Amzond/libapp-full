@@ -1,0 +1,127 @@
+{
+    "test_author_create": {
+        "created_at": "2001-05-15T12:00:00Z",
+        "updated_at": "2001-05-15T12:00:00Z",
+        "full_name": "Tomas Domauskas",
+        "email": null,
+        "phone": null,
+        "born": null,
+        "country": null,
+        "rewards": null,
+        "number_of_books": null,
+        "created_by": 1,
+        "updated_by": 1
+    },
+    "test_author_list": [
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Arturas Nes",
+            "email": "artnes@ktu.lt",
+            "phone": "860000",
+            "born": null,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Tomas Dom",
+            "email": "tomdom@ktu.lt",
+            "phone": "860000",
+            "born": null,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        }
+    ],
+    "test_author_partial_update": {
+        "created_at": "2000-05-15T12:00:00Z",
+        "updated_at": "2001-05-15T12:00:00Z",
+        "full_name": "Hamlet",
+        "email": "artnes@ktu.lt",
+        "phone": "860000",
+        "born": null,
+        "country": null,
+        "rewards": null,
+        "number_of_books": null,
+        "created_by": null,
+        "updated_by": 1
+    },
+    "test_author_partial_update_data": {
+        "created_at": "2000-05-15T12:00:00Z",
+        "updated_at": "2001-05-15T12:00:00Z",
+        "full_name": "Arturas Nes",
+        "email": "newmail@ktu.lt",
+        "phone": "3700",
+        "born": 1999,
+        "country": "Lietuva",
+        "rewards": "Nera apdovanojimu",
+        "number_of_books": 5,
+        "created_by": null,
+        "updated_by": 1
+    },
+    "test_author_full_text_search": [
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Arturas Nes",
+            "email": "artnes@ktu.lt",
+            "phone": "860000",
+            "born": null,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        }
+    ],
+    "test_author_full_text_search_two": [
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Arturas Nes",
+            "email": "artnes@ktu.lt",
+            "phone": "860000",
+            "born": null,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Arturas Dom",
+            "email": "artdom@ktu.lt",
+            "phone": "860000",
+            "born": null,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        }
+    ],
+    "test_author_full_text_search_email": [
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Arturas Dom",
+            "email": "artdom@ktu.lt",
+            "phone": "860000",
+            "born": null,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        }
+    ]
+}

@@ -1,0 +1,77 @@
+{
+    "test_book_search_elastic": {
+        "took": 0,
+        "timed_out": false,
+        "_shards": {
+            "total": 1,
+            "successful": 1,
+            "skipped": 0,
+            "failed": 0
+        },
+        "hits": {
+            "total": {
+                "value": 1,
+                "relation": "eq"
+            },
+            "hits": [
+                {
+                    "_index": "books",
+                    "_type": "_doc",
+                    "_id": "7804d3a7-616a-4300-84db-1df153a023f1",
+                    "_score": null
+                }
+            ]
+        }
+    },
+    "test_book_search_elastic_two": {
+        "took": 0,
+        "timed_out": false,
+        "_shards": {
+            "total": 1,
+            "successful": 1,
+            "skipped": 0,
+            "failed": 0
+        },
+        "hits": {
+            "total": {
+                "value": 1,
+                "relation": "eq"
+            },
+            "hits": [
+                {
+                    "_index": "books",
+                    "_type": "_doc",
+                    "_id": "7804d3a7-616a-4300-84db-1df153a023f1",
+                    "_score": null
+                },
+                {
+                    "_index": "books",
+                    "_type": "_doc",
+                    "_id": "7804d3a7-616a-4300-84db-1df153a023f2",
+                    "_score": null
+                }
+            ]
+        }
+    },
+    "search_query":{
+        "query":{
+            "multi_match":{
+                "query": "Vakaru"
+            }
+        }
+    },
+    "search_query_two":{
+        "query":{
+            "multi_match":{
+                "query": "fronte"
+            }
+        }
+    },
+    "search_query_genre":{
+        "query":{
+            "multi_match":{
+                "query": "Detektyvas"
+            }
+        }
+    }
+}

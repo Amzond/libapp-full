@@ -1,0 +1,101 @@
+{
+    "test_author_search_elastic": {
+        "took": 0,
+        "timed_out": false,
+        "_shards": {
+            "total": 1,
+            "successful": 1,
+            "skipped": 0,
+            "failed": 0
+        },
+        "hits": {
+            "total": {
+                "value": 1,
+                "relation": "eq"
+            },
+            "hits": [
+                {
+                    "_index": "authors",
+                    "_type": "_doc",
+                    "_id": "1a27cc50-6cad-4ff9-aad5-c974eff014e1",
+                    "_score": null
+                }
+            ]
+        }
+    },
+    "test_author_search_elastic_two": {
+        "took": 0,
+        "timed_out": false,
+        "_shards": {
+            "total": 1,
+            "successful": 1,
+            "skipped": 0,
+            "failed": 0
+        },
+        "hits": {
+            "total": {
+                "value": 1,
+                "relation": "eq"
+            },
+            "hits": [
+                {
+                    "_index": "authors",
+                    "_type": "_doc",
+                    "_id": "1a27cc50-6cad-4ff9-aad5-c974eff014e1",
+                    "_score": null
+                },
+                {
+                    "_index": "authors",
+                    "_type": "_doc",
+                    "_id": "1a27cc50-6cad-4ff9-aad5-c974eff014e3",
+                    "_score": null
+                }
+            ]
+        }
+    },
+    "test_author_search_elastic_email": {
+        "took": 0,
+        "timed_out": false,
+        "_shards": {
+            "total": 1,
+            "successful": 1,
+            "skipped": 0,
+            "failed": 0
+        },
+        "hits": {
+            "total": {
+                "value": 1,
+                "relation": "eq"
+            },
+            "hits": [
+                {
+                    "_index": "authors",
+                    "_type": "_doc",
+                    "_id": "1a27cc50-6cad-4ff9-aad5-c974eff014e3",
+                    "_score": null
+                }
+            ]
+        }
+    },
+    "search_query":{
+        "query":{
+            "multi_match":{
+                "query": "Arturas Nes"
+            }
+        }
+    },
+    "search_query_two":{
+        "query":{
+            "multi_match":{
+                "query": "Arturas"
+            }
+        }
+    },
+    "search_query_email":{
+        "query":{
+            "multi_match":{
+                "query": "artdom@ktu.lt"
+            }
+        }
+    }
+}

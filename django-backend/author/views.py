@@ -40,11 +40,12 @@ class AuthorFilterSet(filters.FilterSet):
         payload = elastic.es_full_text_search_query(value)
         try:
             response = es.search(index=settings.ELASTIC_AUTHOR_INDEX, body=payload, _source=False)
-            hits = response['hits']['hits']
-            author_ids = []
-            for hit in hits:
-                author_id = hit['_id']
-                author_ids.append(author_id)
+            author_ids = [result['_id'] for result in response['hits']['hits']]
+            # hits = response['hits']['hits']
+            # author_ids = []
+            # for hit in hits:
+            #     author_id = hit['_id']
+            #     author_ids.append(author_id)
         except Exception:
             raise exceptions.ServiceUnavailable()
         return queryset.filter(pk__in=author_ids)

@@ -1,0 +1,58 @@
+{
+    "test_born__gte": [
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Tomas Dom",
+            "email": "tomdom@ktu.lt",
+            "phone": "860000",
+            "born": 2023,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Dovis Tob",
+            "email": "dovtob@ktu.lt",
+            "phone": "860000",
+            "born": 2021,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        }
+    ],
+    "test_born__lte": [
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Arturas Nes",
+            "email": "artnes@ktu.lt",
+            "phone": "860000",
+            "born": 2019,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "full_name": "Dovis Tob",
+            "email": "dovtob@ktu.lt",
+            "phone": "860000",
+            "born": 2021,
+            "country": null,
+            "rewards": null,
+            "number_of_books": null,
+            "created_by": null,
+            "updated_by": null
+        }
+    ]
+}

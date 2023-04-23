@@ -1,0 +1,148 @@
+{
+    "test_book_create": {
+        "created_at": "2001-05-15T12:00:00Z",
+        "updated_at": "2001-05-15T12:00:00Z",
+        "title": "Karo menas",
+        "num_of_pages": 0,
+        "release_year": 2023,
+        "genre": null,
+        "status": "0",
+        "rewards": null,
+        "isbn": null,
+        "language": null,
+        "translator": null,
+        "publisher": null,
+        "cover": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "authors": [
+            "1a27cc50-6cad-4ff9-aad5-c974eff014e1"
+        ]
+    },
+    "test_book_list": [
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "title": "Vakaru fronte nieko naujo",
+            "num_of_pages": 55,
+            "release_year": 2023,
+            "genre": "Detektyvas",
+            "status": "0",
+            "rewards": null,
+            "isbn": null,
+            "language": null,
+            "translator": null,
+            "publisher": null,
+            "cover": null,
+            "created_by": null,
+            "updated_by": null,
+            "authors": [
+                "1a27cc50-6cad-4ff9-aad5-c974eff014e1"
+            ]
+        },
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "title": "Rytu fronte nieko naujo",
+            "num_of_pages": 55,
+            "release_year": 2023,
+            "genre": "Detektyvas",
+            "status": "0",
+            "rewards": null,
+            "isbn": null,
+            "language": null,
+            "translator": null,
+            "publisher": null,
+            "cover": null,
+            "created_by": null,
+            "updated_by": null,
+            "authors": [
+                "1a27cc50-6cad-4ff9-aad5-c974eff014e2"
+            ]
+        }
+    ],
+    "test_book_partial_update": {
+        "created_at": "2000-05-15T12:00:00Z",
+        "updated_at": "2001-05-15T12:00:00Z",
+        "title": "Karo menas",
+        "num_of_pages": 56,
+        "release_year": 2023,
+        "genre": "Romanas",
+        "status": "2",
+        "rewards": "Bestseller",
+        "isbn": null,
+        "language": "Lietuviu",
+        "translator": "Tomas Davidonis",
+        "publisher": "Alma Litera",
+        "cover": "Kietas",
+        "created_by": null,
+        "updated_by": 1,
+        "authors": [
+            "1a27cc50-6cad-4ff9-aad5-c974eff014e1"
+        ]
+    },
+    "test_book_full_text_search": [
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "title": "Vakaru fronte nieko naujo",
+            "num_of_pages": 55,
+            "release_year": 2023,
+            "genre": "Detektyvas",
+            "status": "0",
+            "rewards": null,
+            "isbn": null,
+            "language": null,
+            "translator": null,
+            "publisher": null,
+            "cover": null,
+            "created_by": null,
+            "updated_by": null,
+            "authors": [
+                "1a27cc50-6cad-4ff9-aad5-c974eff014e1"
+            ]
+        }
+    ],
+    "test_book_full_text_search_two":[
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "title": "Vakaru fronte nieko naujo",
+            "num_of_pages": 55,
+            "release_year": 2023,
+            "genre": "Detektyvas",
+            "status": "0",
+            "rewards": null,
+            "isbn": null,
+            "language": null,
+            "translator": null,
+            "publisher": null,
+            "cover": null,
+            "created_by": null,
+            "updated_by": null,
+            "authors": [
+                "1a27cc50-6cad-4ff9-aad5-c974eff014e1"
+            ]
+        },
+        {
+            "created_at": "2000-05-15T12:00:00Z",
+            "updated_at": "2000-05-15T12:00:00Z",
+            "title": "Rytu fronte nieko naujo",
+            "num_of_pages": 55,
+            "release_year": 2023,
+            "genre": "Detektyvas",
+            "status": "0",
+            "rewards": null,
+            "isbn": null,
+            "language": null,
+            "translator": null,
+            "publisher": null,
+            "cover": null,
+            "created_by": null,
+            "updated_by": null,
+            "authors": [
+                "1a27cc50-6cad-4ff9-aad5-c974eff014e2"
+            ]
+        }
+    ]
+}

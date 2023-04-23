@@ -20,7 +20,7 @@ class Command(search_index.Command):
         
         for doc in registry.get_documents(models):
             self.stdout.write("Indexing {} '{}' objects {}".format(
-                doc.get_queryset().count() if options['count'] else "all",
+                doc().get_queryset().count() if options['count'] else "all",
                 doc.django.model.__name__,
                 "(parallel)" if parallel else ""
                 )
